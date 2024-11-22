@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "144854567597",
+    "project_id": "arcrun-f8003",
+    "storage_bucket": "arcrun-f8003.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:144854567597:android:0c642263e3a2c379a91424",
+        "android_client_info": {
+          "package_name": "com.example.newarcrun"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "144854567597-p6p8e9ononl2bkm60eojs5dcng9oaek4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.newarcrun",
+            "certificate_hash": "d48ab7f5182a0a09e7afa2fccd116ade25e8a388"
+          }
+        },
+        {
+          "client_id": "144854567597-tokg5ghkg9uug2epsrqgs9ndh1dl8nr0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBD2AGJMAo_EOc-emF4S_QM3P91TDSzAxU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "144854567597-tokg5ghkg9uug2epsrqgs9ndh1dl8nr0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">arcrun</string>
+    <string name="client_id">144854567597-tokg5ghkg9uug2epsrqgs9ndh1dl8nr0.apps.googleusercontent.com</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <string name="title_home">Home</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_notifications">Notifications</string>
+</resources>
