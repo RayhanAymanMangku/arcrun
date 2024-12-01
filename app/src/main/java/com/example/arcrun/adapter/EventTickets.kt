@@ -47,6 +47,7 @@ class EventTickets(
                 intent.putExtra("event_status", item.status_event)
                 intent.putExtra("event_image", item.gambar)
                 intent.putExtra("event_desc",item.deskripsi)
+                intent.putExtra("event_price", item.harga)
                 context.startActivity(intent)
             }
 
