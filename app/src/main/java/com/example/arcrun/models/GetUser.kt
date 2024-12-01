@@ -24,7 +24,6 @@ class GetUser {
             )
         }
 
-        // Mengembalikan objek User melalui callback
         onUser(user)
     }
 }

@@ -2,34 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/createProgramActivity"
+                android:id="@+id/inputProgramActivity"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="30dp"
                 android:background="@color/black"
-                tools:context=".CreateProgramActivity">
-    <FrameLayout
-            android:id="@+id/fab_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="100dp"
-            android:layout_marginEnd="30dp"
-            android:contentDescription="Tambah"
-            android:src="@drawable/ic_plus"
-            app:backgroundTint="@color/white"
-            app:tint="@color/black"
-            android:background="@drawable/circle_backround_arrow">
-
-        <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_plus"
-                android:tint="#000000"/>
-    </FrameLayout>
-
+                tools:context=".InputProgramActivity">
 
     <!-- Header -->
     <TextView
@@ -74,9 +52,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Buat programmu disini"
+                    android:textSize="20sp"
+                    android:textColor="@color/white"
+                    android:layout_marginStart="30dp"
+                    android:textStyle="bold"/>
+
+
+
             <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="140dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginHorizontal="30dp"
                     android:layout_marginTop="20dp"
                     app:cardCornerRadius="10dp"
@@ -85,39 +75,144 @@
 
                 <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:background="@color/white"
                         android:padding="20dp">
 
-                    <TextView
-                            android:layout_width="wrap_content"
+                    <RelativeLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Lari 5km"
-                            android:textSize="24sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/black"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"/>
+                            android:background="@drawable/rounded_card_bg">
 
-                    <FrameLayout
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_alignParentBottom="true"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginStart="10dp"
-                            android:background="@drawable/circle_backround_arrow">
+                        <!-- Name and Quota Info -->
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:gravity="center_vertical"
+                                android:weightSum="1"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true">
 
-                        <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_arrow_right"
-                                android:tint="#000000"/>
-                    </FrameLayout>
+                            <!-- EditText fields -->
+                            <EditText
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:hint="Nama Program"
+                                    android:background="@drawable/rounded_edittext_background"
+                                    android:padding="10dp"
+                                    android:textColor="@color/black"
+                                    android:textSize="16sp" />
+
+                            <EditText
+                                    android:layout_width="match_parent"
+                                    android:layout_height="150dp"
+                                    android:layout_weight="1"
+                                    android:layout_marginTop="10dp"
+                                    android:hint="Deskripsi"
+                                    android:background="@drawable/rounded_edittext_background"
+                                    android:padding="10dp"
+                                    android:textColor="@color/black"
+                                    android:textSize="16sp" />
+
+                            <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_marginTop="20dp"
+                                    android:gravity="center">
+
+                                <!-- Start Date -->
+                                <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="vertical"
+                                        android:layout_marginEnd="10dp">
+
+                                    <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Start Date"
+                                            android:textColor="@color/black"
+                                            android:textSize="16sp"
+                                            android:layout_marginBottom="4dp" />
+
+                                    <EditText
+                                            android:id="@+id/startDateInput"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:hint="DD/MM/YYYY"
+                                            android:inputType="date"
+                                            android:background="@drawable/rounded_edittext_background"
+                                            android:padding="10dp"
+                                            android:textColor="@color/black"
+                                            android:textSize="14sp" />
+                                </LinearLayout>
+
+                                <!-- End Date -->
+                                <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="vertical"
+                                        android:layout_marginStart="10dp">
+
+                                    <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="End Date"
+                                            android:textColor="@color/black"
+                                            android:textSize="16sp"
+                                            android:layout_marginBottom="4dp" />
+
+                                    <EditText
+                                            android:id="@+id/endDateInput"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:hint="DD/MM/YYYY"
+                                            android:inputType="date"
+                                            android:background="@drawable/rounded_edittext_background"
+                                            android:padding="10dp"
+                                            android:textColor="@color/black"
+                                            android:textSize="14sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                    android:id="@+id/submitAddProgramBtn"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+                                    android:orientation="horizontal"
+                                    android:gravity="center"
+                                    android:background="@drawable/rounded_button_black_background"
+                                    android:clickable="true"
+                                    android:focusable="true"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginBottom="20dp">
+
+
+
+                                <TextView
+                                        android:id="@+id/googleSignInText"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Submit"
+                                        android:textColor="@color/white"
+                                        android:textSize="14sp"/>
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+                    </RelativeLayout>
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
+
         </LinearLayout>
     </ScrollView>
+
 
     <!-- Bottom Navigation Bar -->
     <androidx.coordinatorlayout.widget.CoordinatorLayout

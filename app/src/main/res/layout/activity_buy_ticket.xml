@@ -1,35 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/createProgramActivity"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="30dp"
-                android:background="@color/black"
-                tools:context=".CreateProgramActivity">
-    <FrameLayout
-            android:id="@+id/fab_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="100dp"
-            android:layout_marginEnd="30dp"
-            android:contentDescription="Tambah"
-            android:src="@drawable/ic_plus"
-            app:backgroundTint="@color/white"
-            app:tint="@color/black"
-            android:background="@drawable/circle_backround_arrow">
-
-        <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_plus"
-                android:tint="#000000"/>
-    </FrameLayout>
-
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        tools:context=".BuyTicketActivity">
 
     <!-- Header -->
     <TextView
@@ -62,64 +40,68 @@
             android:layout_marginStart="30dp"
             android:textSize="24dp"/>
 
-    <!-- ScrollView for  all Cards -->
+
     <ScrollView
             android:id="@+id/cardContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/textViewAyman"
-            android:layout_marginTop="20dp">
+            android:layout_below="@id/textViewAyman">
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-            <com.google.android.material.card.MaterialCardView
+
+
+            <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginStart="32dp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:text="Pantau Event Lari Terbaru !"
+                    app:layout_constraintStart_toStartOf="@+id/linearLayout"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout"/>
+
+            <LinearLayout
+                    android:id="@+id/linearLayout2"
                     android:layout_width="match_parent"
-                    android:layout_height="140dp"
-                    android:layout_marginHorizontal="30dp"
-                    android:layout_marginTop="20dp"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="0dp"
-                    app:strokeWidth="0dp">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:paddingHorizontal="30dp"
+                    android:orientation="horizontal">
 
-                <RelativeLayout
+                <EditText
+                        android:id="@+id/editText"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:padding="20dp">
+                        android:layout_height="50dp"
+                        android:background="@drawable/bg_search"
+                        android:hint="Cari Event"
+                        android:textAlignment="center"
+                        android:inputType="text"
+                        android:textColor="@color/black"/>
 
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Lari 5km"
-                            android:textSize="24sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/black"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"/>
+                <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="-360dp"
+                        app:srcCompat="@drawable/search"/>
+            </LinearLayout>
 
-                    <FrameLayout
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_alignParentBottom="true"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginStart="10dp"
-                            android:background="@drawable/circle_backround_arrow">
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/displayAllEvents"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_height="wrap_content"/>
 
-                        <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_arrow_right"
-                                android:tint="#000000"/>
-                    </FrameLayout>
-                </RelativeLayout>
-            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
     </ScrollView>
-
-    <!-- Bottom Navigation Bar -->
     <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/bottomNavigationContainer"
             android:layout_width="match_parent"
@@ -242,4 +224,5 @@
             </LinearLayout>
         </com.google.android.material.bottomnavigation.BottomNavigationView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 </RelativeLayout>
