@@ -7,6 +7,6 @@
 
     </style>
 
-<!--    <style name="Theme.Arcrun" parent="Base.Theme.Arcrun"/>-->
+    <style name="Theme.Arcrun" parent="Base.Theme.Arcrun"/>
 </resources>
 

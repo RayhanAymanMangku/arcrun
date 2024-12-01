@@ -5,14 +5,21 @@
         android:id="@+id/eventsCard"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:layout_marginHorizontal="30dp"
         android:layout_marginTop="24dp"
-        android:background="@drawable/rounded_card_bg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
-    <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:id="@+id/eventCardImg"/>
 
+    <!-- ImageView dengan background drawable untuk rounded corners -->
+    <ImageView
+            android:id="@+id/eventCardImg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:clipToOutline="true"
+            android:outlineProvider="background"
+            android:background="@drawable/rounded_transparent_bg"/>
+    <!-- TextView untuk status -->
     <TextView
             android:id="@+id/statusTxt"
             android:layout_width="wrap_content"
@@ -23,12 +30,13 @@
             android:gravity="center_vertical"
             android:paddingHorizontal="12sp"
             android:text="Penuh"
-            android:textColor="@color/redTxt"
+            android:textColor="@color/greenTxt"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
+    <!-- LinearLayout untuk informasi event -->
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,14 +49,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
+        <!-- RelativeLayout untuk informasi event -->
         <RelativeLayout
                 android:id="@+id/eventRectangle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:backgroundTint="@color/white"
-                android:background="@drawable/rounded_card_bg">
+                android:background="@drawable/rounded_card_bg"
+                android:backgroundTint="@color/white">
 
-            <!-- Name and Quota Info -->
+            <!-- LinearLayout untuk nama event dan kuota -->
             <LinearLayout
                     android:layout_width="match_parent"
                     android:id="@+id/eventInfo"
@@ -69,15 +78,27 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
-                        android:text="Kuota Tersedia"
-                        android:textColor="#22c55e"
+                        android:text="Rp."
+                        android:layout_marginRight="4dp"
+                        android:textColor="@color/black"
                         android:textStyle="bold"
-                        android:textSize="10sp"
+                        android:textSize="14sp"
+                        android:layout_gravity="top"
+                        android:gravity="end"/>
+                <TextView
+                        android:id="@+id/priceEvent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:text="Price"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
                         android:layout_gravity="top"
                         android:gravity="end"/>
             </LinearLayout>
 
-            <!-- Registration Deadline Info -->
+            <!-- LinearLayout untuk batas waktu pendaftaran -->
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -110,6 +131,5 @@
         </RelativeLayout>
 
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-

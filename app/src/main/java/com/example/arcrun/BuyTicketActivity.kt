@@ -1,20 +1,98 @@
 package com.example.arcrun
 
+import GetUser
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.example.arcrun.models.EventTicketModels
+import com.example.arcrun.adapter.EventTickets
+import com.example.arcrun.databinding.ActivityBuyTicketBinding
+import com.google.firebase.database.*
 
 class BuyTicketActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityBuyTicketBinding
+    private lateinit var database: FirebaseDatabase
+    private lateinit var userHandler: GetUser
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_buy_ticket)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        binding = ActivityBuyTicketBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        database = FirebaseDatabase.getInstance()
+        initViewEvent()
+
+        userHandler = GetUser ()
+
+        val userNameTextView = findViewById<TextView>(R.id.textViewAyman)
+        val userProfileImage = findViewById<ImageView>(R.id.profileButton)
+
+        userHandler.getCurrentUser  { user ->
+            userNameTextView.text = user.name
+            if (user.profileImageUrl != null) {
+                Glide.with(this)
+                    .load(user.profileImageUrl)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(userProfileImage)
+            } else {
+                userProfileImage.setImageResource(R.drawable.default_profile_image)
+            }
+
+            userProfileImage.setOnClickListener {
+                val navigateToProfile = Intent(this, UserProfile::class.java)
+                startActivity(navigateToProfile)
+            }
         }
+    }
+
+
+    private fun initViewEvent() {
+        val myRef: DatabaseReference = database.getReference("TiketEvents")
+        val items = ArrayList<EventTicketModels>()
+
+        myRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    for (issue in snapshot.children) {
+                        val event = issue.getValue(EventTicketModels::class.java)
+                        if (event != null) {
+                            items.add(event)
+                            Log.d("FirebaseData", "Loaded event: ${event.nama_event}")
+                        }
+                    }
+
+                    // Memastikan RecyclerView menampilkan data jika ada
+                    if (items.isNotEmpty()) {
+                        binding.displayAllEvents.layoutManager = LinearLayoutManager(
+                            this@BuyTicketActivity, LinearLayoutManager.VERTICAL, false
+                        )
+                        binding.displayAllEvents.adapter = EventTickets(items, this@BuyTicketActivity)
+                        (binding.displayAllEvents.adapter as EventTickets).notifyDataSetChanged()
+                    } else {
+                        Toast.makeText(this@BuyTicketActivity, "No events found.", Toast.LENGTH_SHORT).show()
+                    }
+
+                } else {
+                    Toast.makeText(this@BuyTicketActivity, "No data in Firebase.", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@BuyTicketActivity, "Failed to load data: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }

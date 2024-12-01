@@ -14,6 +14,7 @@ data class EventTicketModels(
     var nama_event: String? = null,
     var status_event: String? = null,
     var waktu_mulai: String? = null,
+
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
