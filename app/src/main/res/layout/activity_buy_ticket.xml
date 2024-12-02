@@ -7,20 +7,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/black"
+        android:paddingTop="30dp"
         tools:context=".BuyTicketActivity">
 
     <!-- Header -->
     <TextView
-            android:id="@+id/textView"
+            android:id="@+id/textViewAyman"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="Selamat Datang"
-            android:textSize="14sp"
-            android:layout_marginStart="30dp"
+            android:text="User"
             android:textColor="@color/white"
-            android:textStyle="bold"/>
-
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="30dp"
+            android:textSize="24dp"/>
     <ImageView
             android:id="@+id/profileButton"
             android:layout_width="40dp"
@@ -30,15 +29,7 @@
             android:layout_margin="30dp"
             android:src="@drawable/default_profile_image"/>
 
-    <TextView
-            android:id="@+id/textViewAyman"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textView"
-            android:text="User"
-            android:textColor="@color/white"
-            android:layout_marginStart="30dp"
-            android:textSize="24dp"/>
+
 
 
     <ScrollView
