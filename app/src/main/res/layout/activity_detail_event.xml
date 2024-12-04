@@ -1,0 +1,181 @@
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/detailEvent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        tools:context=".DetailEventActivity">
+
+    <!-- Header -->
+    <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Selamat Datang"
+            android:textSize="14sp"
+            android:layout_marginStart="30dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
+
+    <ImageView
+            android:id="@+id/profileButton"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="30dp"
+            android:src="@drawable/default_profile_image"/>
+
+    <TextView
+            android:id="@+id/textViewAyman"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView"
+            android:text="User"
+            android:textColor="@color/white"
+            android:layout_marginStart="30dp"
+            android:textSize="24dp"/>
+
+    <!-- ScrollView dengan Deskripsi Event -->
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/textViewAyman"
+            android:layout_marginTop="20dp">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:orientation="vertical">
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_card_bg"
+                    android:id="@+id/descCard"
+                    android:layout_marginTop="8dp"
+
+                    android:layout_marginHorizontal="12dp"
+                    android:orientation="vertical">
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center"
+                        android:textSize="30sp"
+                        android:textStyle="bold"
+                        android:text="Deskripsi Event"/>
+
+                <ImageView
+                        android:id="@+id/imgEvent"
+                        android:layout_width="match_parent"
+                        android:layout_height="160dp"
+                        android:layout_marginHorizontal="20dp"
+                        android:scaleType="centerCrop"
+                        android:clipToOutline="true"
+                        android:outlineProvider="background"
+                        android:background="@drawable/rounded_transparent_bg"/>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:id="@+id/eventName"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="20dp"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:weightSum="1">
+
+                    <TextView
+                            android:id="@+id/eventNameDetail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:text="Jogja Virtual Running 2024"/>
+                    <TextView
+                            android:id="@+id/statusTxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:textStyle="bold"
+                            android:layout_marginLeft="4dp"
+                            android:textColor="@color/greenTxt"
+                            android:text="Kuota Tersedia"/>
+                </LinearLayout>
+
+                <TextView
+                        android:id="@+id/deskripsiTxt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Jogja Virtual Running 2024 bukan sekadar ajang olahraga, tetapi juga sebuah gerakan yang menghubungkan semua orang melalui semangat dan budaya Jogja. Mari bersama-sama kita ciptakan langkah menuju hidup sehat dan kebanggaan terhadap keindahan Indonesia. 🌍❤️
+Ayo daftar sekarang! Siap menjadi bagian dari pengalaman lari paling seru di 2024?"/>
+
+<!--                <TextView-->
+<!--                        android:id="@+id/textView9"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginHorizontal="20dp"-->
+<!--                        android:layout_marginTop="16dp"-->
+<!--                        android:text="Hadiah dan Benefit Peserta-->
+<!--Semua peserta akan mendapatkan:-->
+<!--E-Bib dan E-Certificate: Bisa langsung diunduh setelah menyelesaikan event.-->
+<!--Finisher Medal: Desain eksklusif bertema Jogja untuk pelari yang mencapai target.-->
+<!--Custom T-Shirt: Kaos lari spesial untuk Anda pamerkan saat berlari.-->
+<!--Grand Prize Doorprize: Kesempatan memenangkan hadiah menarik seperti smartwatch, sepatu lari, dan voucher belanja."/>-->
+
+<!--                <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:layout_marginHorizontal="20dp"-->
+<!--                        android:layout_marginTop="16dp">-->
+
+<!--                    <TextView-->
+<!--                            android:id="@+id/textView10"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="Waktu dan Pelaksanaan-->
+<!-- - Waktu Event: 1 Desember 2024 \n-->
+<!-- - Pendaftaran Dibuka: 1 November 2024 – 31 November 2024\n-->
+<!-- - Lokasi: Uii Boulevard \n-->
+<!--\n-->
+<!--Harga : 12.000/org"/>-->
+
+<!--                    <TextView-->
+<!--                            android:id="@+id/textView11"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="Kategori Lari-->
+<!--5K Challenge – Cocok untuk pemula yang ingin memulai perjalanan sehat.-->
+<!--10K Challenge – Tantangan ringan bagi pelari yang ingin meningkatkan stamina.-->
+<!--Half Marathon (21K) – Uji kekuatan Anda dengan jarak yang lebih menantang.-->
+<!--Full Marathon (42K) – Tantangan tertinggi untuk pelari profesional!"/>-->
+<!--                </LinearLayout>-->
+
+                <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="24dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="30dp"
+                        android:background="@drawable/rounded_orange_btn"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textAllCaps="false"
+                        android:textStyle="bold"
+                        android:text="Beli Tiket"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
