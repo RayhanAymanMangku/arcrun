@@ -15,6 +15,7 @@ import com.example.arcrun.models.EventTicketModels
 import com.example.arcrun.databinding.CardEventItemsBinding
 
 class EventTickets(
+
     private val items: ArrayList<EventTicketModels>,
     private val context: Context
 ) : RecyclerView.Adapter<EventTickets.Viewholder>() {
