@@ -15,6 +15,7 @@ import java.util.Calendar
 import java.util.Locale
 
 class BuatProgram(
+
     private val items: ArrayList<ProgramModels>, // List program
     private val context: Context
 ) : RecyclerView.Adapter<BuatProgram.Viewholder>() {
