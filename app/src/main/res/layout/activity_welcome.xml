@@ -230,7 +230,7 @@
                     android:layout_marginStart="30dp"/>
 
             <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/eventOnGoingCard2"
+                    android:id="@+id/educationCard"
                     android:layout_width="match_parent"
                     android:layout_height="140dp"
                     android:layout_marginHorizontal="30dp"
@@ -243,7 +243,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/eventImage2"
-                        android:background="@drawable/healthedu"
+                        android:background="@drawable/edu1"
                         android:padding="20dp">
 
                     <TextView
@@ -295,9 +295,11 @@
                     android:layout_marginStart="30dp"/>
 
             <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/programCard"
                     android:layout_width="match_parent"
                     android:layout_height="140dp"
                     android:layout_marginHorizontal="30dp"
+                    android:layout_marginBottom="100dp"
                     android:layout_marginTop="20dp"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="0dp"
@@ -340,12 +342,12 @@
 
     <!-- Bottom Navigation Bar -->
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/bottomNavigationContainer"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_alignParentBottom="true">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottomNavigationContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -354,7 +356,7 @@
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    >
+            >
 
                 <LinearLayout
                         android:layout_width="0dp"
@@ -458,4 +460,6 @@
             </LinearLayout>
         </com.google.android.material.bottomnavigation.BottomNavigationView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 </RelativeLayout>
+

@@ -474,31 +474,17 @@
                                 </LinearLayout>
                             </LinearLayout>
 
-                            <LinearLayout
+                            <androidx.appcompat.widget.AppCompatButton
                                     android:id="@+id/submitDaftarBtn"
                                     android:layout_width="match_parent"
-                                    android:layout_height="40dp"
-                                    android:orientation="horizontal"
-                                    android:gravity="center"
-                                    android:background="@drawable/rounded_button_black_background"
-                                    android:clickable="true"
-                                    android:focusable="true"
-                                    android:layout_marginTop="20dp"
-                                    android:layout_marginBottom="20dp">
-
-
-
-                                <TextView
-                                        android:id="@+id/googleSignInText"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Submit"
-                                        android:textColor="@color/white"
-                                        android:textSize="14sp"/>
-
-                            </LinearLayout>
-
-
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="16dp"
+                                    android:background="@drawable/rounded_orange_btn"
+                                    android:textColor="@color/white"
+                                    android:textSize="18sp"
+                                    android:textAllCaps="false"
+                                    android:textStyle="bold"
+                                    android:text="Submit"/>
                         </LinearLayout>
                     </RelativeLayout>
                 </RelativeLayout>

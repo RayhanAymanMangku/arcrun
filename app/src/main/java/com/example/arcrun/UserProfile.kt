@@ -33,9 +33,11 @@ class UserProfile : AppCompatActivity() {
         val userNameTextView = findViewById<TextView>(R.id.textViewUserProfile)
         val userProfileImage = findViewById<ImageView>(R.id.userProfileButton)
         val signOutButton = findViewById<LinearLayout>(R.id.signOutButton)
+        val userEmail = findViewById<TextView>(R.id.emailUserText)
 
         userHandler.getCurrentUser  { user ->
             userNameTextView.text = user.name
+            userEmail.text = user.email
             if (user.profileImageUrl != null) {
                 Glide.with(this)
                     .load(user.profileImageUrl)

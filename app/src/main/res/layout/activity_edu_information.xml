@@ -2,11 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/inputProgramActivity"
+                android:id="@+id/eduInformationActivity"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/black"
-                tools:context=".InputProgramActivity">
+                tools:context=".EduInformation">
 
     <!-- Header -->
     <TextView
@@ -20,6 +20,7 @@
             android:textColor="@color/white"
             android:textStyle="bold"/>
 
+
     <ImageView
             android:id="@+id/profileButton"
             android:layout_width="40dp"
@@ -28,6 +29,7 @@
             android:layout_alignParentEnd="true"
             android:layout_margin="30dp"
             android:src="@drawable/default_profile_image"/>
+
 
     <TextView
             android:id="@+id/textViewAyman"
@@ -39,177 +41,189 @@
             android:layout_marginStart="30dp"
             android:textSize="24dp"/>
 
-    <!-- ScrollView for  all Cards -->
+
+    <!-- ScrollView for all Cards -->
     <ScrollView
             android:id="@+id/cardContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textViewAyman"
-            android:layout_marginTop="20dp">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/textViewAyman"
+            android:layout_marginTop="20dp"
+            >
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Buat programmu disini"
+                    android:text="Edukasi dan Informasi"
                     android:textSize="20sp"
                     android:textColor="@color/white"
                     android:layout_marginStart="30dp"
                     android:textStyle="bold"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tingkatkan pengetahuanmu untuk menjadi lebih baik"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"
+                    android:layout_marginStart="30dp"
+                    android:textStyle="normal"/>
 
 
-
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="30dp"
-                    android:layout_marginTop="20dp"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="0dp"
-                    app:strokeWidth="0dp">
+                    android:orientation="vertical">
 
-                <RelativeLayout
+                <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/educationCard"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/white"
-                        android:padding="20dp">
+                        android:layout_height="140dp"
+                        android:layout_marginHorizontal="30dp"
+                        android:layout_marginTop="20dp"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="0dp"
+                        app:strokeWidth="0dp">
 
                     <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/rounded_card_bg">
+                            android:id="@+id/eventImage2"
+                            android:background="@drawable/edu1"
+                            android:padding="20dp">
 
-                        <!-- Name and Quota Info -->
-                        <LinearLayout
-                                android:layout_width="match_parent"
+                        <TextView
+                                android:id="@+id/textViewEventName2"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:gravity="center_vertical"
-                                android:weightSum="1"
+                                android:text="Manfaat Lari Pagi"
+                                android:textSize="24sp"
+                                android:textStyle="bold"
+                                android:textColor="#fff"
                                 android:layout_alignParentStart="true"
-                                android:layout_alignParentTop="true">
+                                android:layout_alignParentTop="true"/>
 
-                            <!-- EditText fields -->
-                            <EditText
-                                    android:id="@+id/namaProgramInput"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:hint="Nama Program"
-                                    android:background="@drawable/rounded_edittext_background"
-                                    android:padding="10dp"
-                                    android:textColor="@color/black"
-                                    android:textSize="16sp" />
+                        <FrameLayout
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginStart="10dp"
+                                android:background="@drawable/circle_backround_arrow">
 
-                            <EditText
-                                    android:layout_width="match_parent"
-                                    android:layout_height="150dp"
-                                    android:layout_weight="1"
-                                    android:id="@+id/deskripsiInput"
-                                    android:layout_marginTop="10dp"
-                                    android:hint="Deskripsi"
-                                    android:background="@drawable/rounded_edittext_background"
-                                    android:padding="10dp"
-                                    android:textColor="@color/black"
-                                    android:textSize="16sp" />
-
-                            <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:layout_marginTop="20dp"
-                                    android:gravity="center">
-
-                                <!-- Start Date -->
-                                <LinearLayout
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:orientation="vertical"
-                                        android:layout_marginEnd="10dp">
-
-                                    <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:text="Mulai"
-                                            android:textColor="@color/black"
-                                            android:textSize="16sp"
-                                            android:layout_marginBottom="4dp" />
-
-                                    <EditText
-                                            android:id="@+id/startDateInput"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:hint="DD/MM/YYYY"
-                                            android:inputType="date"
-                                            android:background="@drawable/rounded_edittext_background"
-                                            android:padding="10dp"
-                                            android:textColor="@color/black"
-                                            android:textSize="14sp" />
-                                </LinearLayout>
-
-                                <!-- End Date -->
-                                <LinearLayout
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:orientation="vertical"
-                                        android:layout_marginStart="10dp">
-
-                                    <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:text="Selesai"
-                                            android:textColor="@color/black"
-                                            android:textSize="16sp"
-                                            android:layout_marginBottom="4dp" />
-
-                                    <EditText
-                                            android:id="@+id/endDateInput"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:hint="DD/MM/YYYY"
-                                            android:inputType="date"
-                                            android:background="@drawable/rounded_edittext_background"
-                                            android:padding="10dp"
-                                            android:textColor="@color/black"
-                                            android:textSize="14sp" />
-                                </LinearLayout>
-                            </LinearLayout>
-
-                            <androidx.appcompat.widget.AppCompatButton
-                                    android:id="@+id/submitAddProgramBtn"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="20dp"
-                                    android:background="@drawable/rounded_orange_btn"
-                                    android:textColor="@color/white"
-                                    android:textSize="18sp"
-                                    android:textAllCaps="false"
-                                    android:textStyle="bold"
-                                    android:text="Simpan"/>
-
-                        </LinearLayout>
+                            <ImageView
+                                    android:id="@+id/detailEvent2"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_arrow_right"
+                                    android:tint="#000000"/>
+                        </FrameLayout>
                     </RelativeLayout>
-                </RelativeLayout>
-            </com.google.android.material.card.MaterialCardView>
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="140dp"
+                        android:layout_marginHorizontal="30dp"
+                        android:layout_marginTop="20dp"
+                        android:id="@+id/educationCard2"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="0dp"
+                        app:strokeWidth="0dp">
 
+                    <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edu2"
+                            android:padding="20dp">
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Efek Lari Pagi"
+                                android:textSize="24sp"
+                                android:textStyle="bold"
+                                android:textColor="#fff"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"/>
+
+                        <FrameLayout
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginStart="10dp"
+                                android:background="@drawable/circle_backround_arrow">
+
+                            <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_arrow_right"
+                                    android:tint="#000000"/>
+                        </FrameLayout>
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/educationCard3"
+                        android:layout_width="match_parent"
+                        android:layout_height="140dp"
+                        android:layout_marginHorizontal="30dp"
+                        android:layout_marginTop="20dp"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="0dp"
+                        app:strokeWidth="0dp">
+
+                    <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edu3"
+                            android:padding="20dp">
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Cara Berlari yang Tepat"
+                                android:textSize="24sp"
+                                android:textStyle="bold"
+                                android:textColor="#fff"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"/>
+
+                        <FrameLayout
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginStart="10dp"
+                                android:background="@drawable/circle_backround_arrow">
+
+                            <ImageView
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_arrow_right"
+                                    android:tint="#000000"/>
+                        </FrameLayout>
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
-
-    <!-- Bottom Navigation Bar -->
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/bottomNavigationContainer"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_alignParentBottom="true">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottomNavigationContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -218,8 +232,7 @@
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="8dp">
+            >
 
                 <LinearLayout
                         android:layout_width="0dp"
@@ -320,9 +333,12 @@
                             android:textColor="@color/white"
                             android:textSize="12sp"/>
                 </LinearLayout>
-
-
             </LinearLayout>
         </com.google.android.material.bottomnavigation.BottomNavigationView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </RelativeLayout>
+
+
+
+
+

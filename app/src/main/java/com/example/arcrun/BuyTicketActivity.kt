@@ -10,13 +10,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.arcrun.models.EventTicketModels
 import com.example.arcrun.adapter.EventTickets
 import com.example.arcrun.databinding.ActivityBuyTicketBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.*
 
 class BuyTicketActivity : AppCompatActivity() {
@@ -35,6 +35,10 @@ class BuyTicketActivity : AppCompatActivity() {
         initViewEvent()
 
         userHandler = GetUser ()
+
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationContainer)
+        val bottomNavigation = BottomNavigation(this)
+        bottomNavigation.setupBottomNavigation(bottomNavigationView)
 
         val userNameTextView = findViewById<TextView>(R.id.textViewAyman)
         val userProfileImage = findViewById<ImageView>(R.id.profileButton)

@@ -2,33 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/createProgramActivity"
+                android:id="@+id/inputProgramActivity"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="30dp"
                 android:background="@color/black"
-                tools:context=".CreateProgramActivity">
-    <FrameLayout
-            android:id="@+id/fab_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="100dp"
-            android:layout_marginEnd="30dp"
-            android:contentDescription="Tambah"
-            android:src="@drawable/ic_plus"
-            app:backgroundTint="@color/white"
-            app:tint="@color/black"
-            android:background="@drawable/circle_backround_arrow">
-
-        <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_plus"
-                android:tint="#000000"/>
-    </FrameLayout>
+                tools:context=".DisplayProgram">
 
 
     <!-- Header -->
@@ -43,6 +21,7 @@
             android:textColor="@color/white"
             android:textStyle="bold"/>
 
+
     <ImageView
             android:id="@+id/profileButton"
             android:layout_width="40dp"
@@ -51,6 +30,7 @@
             android:layout_alignParentEnd="true"
             android:layout_margin="30dp"
             android:src="@drawable/default_profile_image"/>
+
 
     <TextView
             android:id="@+id/textViewAyman"
@@ -62,71 +42,83 @@
             android:layout_marginStart="30dp"
             android:textSize="24dp"/>
 
-    <!-- ScrollView for  all Cards -->
+
+    <!-- ScrollView for all Cards -->
     <ScrollView
             android:id="@+id/cardContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_below="@id/textViewAyman"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="20dp"
+            android:layout_above="@id/addBtn">
+
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-            <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
-                    android:layout_height="140dp"
-                    android:layout_marginHorizontal="30dp"
-                    android:layout_marginTop="20dp"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="0dp"
-                    app:strokeWidth="0dp">
 
-                <RelativeLayout
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Siapkan Program Larimu Sekarang"
+                    android:textSize="20sp"
+                    android:textColor="@color/white"
+                    android:layout_marginStart="30dp"
+                    android:textStyle="bold"/>
+
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:padding="20dp">
-
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Lari 5km"
-                            android:textSize="24sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/black"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"/>
-
-                    <FrameLayout
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_alignParentBottom="true"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginStart="10dp"
-                            android:background="@drawable/circle_backround_arrow">
-
-                        <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_arrow_right"
-                                android:tint="#000000"/>
-                    </FrameLayout>
-                </RelativeLayout>
-            </com.google.android.material.card.MaterialCardView>
+                        android:layout_marginHorizontal="32dp"
+                        android:layout_marginVertical="24dp"/>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
-    <!-- Bottom Navigation Bar -->
+
+    <!-- Add Button at the bottom-right -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/addBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="100dp"
+            android:padding="12dp"
+            android:layout_above="@id/bottomNavigationContainer"
+            android:background="@drawable/circle_backround_arrow"
+            android:backgroundTint="@color/orangeBtn">
+
+
+        <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:contentDescription="Add"
+                android:src="@drawable/ic_plus_white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/bottomNavigationContainer"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_alignParentBottom="true">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottomNavigationContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -135,8 +127,7 @@
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="8dp">
+            >
 
                 <LinearLayout
                         android:layout_width="0dp"
@@ -237,9 +228,14 @@
                             android:textColor="@color/white"
                             android:textSize="12sp"/>
                 </LinearLayout>
-
-
             </LinearLayout>
         </com.google.android.material.bottomnavigation.BottomNavigationView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
 </RelativeLayout>
+
+
+
+
+

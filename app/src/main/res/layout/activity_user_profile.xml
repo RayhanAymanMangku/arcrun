@@ -53,7 +53,34 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Riwayat Event -->
+    <TextView
+            android:id="@+id/detailAkunText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Detail Pengguna"
+            android:textSize="24dp"
+            android:layout_marginHorizontal="30dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@id/headerContainer"
+            app:layout_constraintStart_toStartOf="parent"
+    />
+
+    <TextView
+            android:id="@+id/emailUserText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="user@example.com"
+            android:textSize="14dp"
+            android:layout_marginHorizontal="30dp"
+            android:textStyle="normal"
+            android:textColor="@color/white"
+            android:layout_marginTop="12sp"
+            app:layout_constraintTop_toBottomOf="@id/detailAkunText"
+            app:layout_constraintStart_toStartOf="parent"
+    />
+
     <TextView
             android:id="@+id/eventHistoryText"
             android:layout_width="wrap_content"
@@ -64,9 +91,9 @@
             android:textStyle="bold"
             android:textColor="@color/white"
             android:layout_marginTop="20dp"
-            app:layout_constraintTop_toBottomOf="@id/headerContainer"
+            app:layout_constraintTop_toBottomOf="@id/emailUserText"
             app:layout_constraintStart_toStartOf="parent"
-             />
+    />
 
     <!-- Log Out Button -->
     <LinearLayout

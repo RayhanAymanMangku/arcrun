@@ -14,6 +14,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.FirebaseApp
+import com.google.firebase.database.FirebaseDatabase
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,27 +28,23 @@ class MainActivity : AppCompatActivity() {
         FirebaseApp.initializeApp(this)
         firebaseAuth = FirebaseAuth.getInstance()
 
-        // Check if user is already signed in
         val currentUser = firebaseAuth.currentUser
         if (currentUser != null) {
-            navigateToWelcomeActivity()
+            checkUserName(currentUser.uid)
             return
         }
-
-        // Set the layout
         setContentView(R.layout.activity_main)
 
         // Configure Google Sign-In
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.client_id)) // Ensure client_id is set correctly
+            .requestIdToken(getString(R.string.client_id))
             .requestEmail()
             .build()
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        // Find the Google sign-in layout (LinearLayout) and set a click listener
         val googleSignInLayout: LinearLayout = findViewById(R.id.googleSignInLayout)
         googleSignInLayout.setOnClickListener {
-            signInWithGoogle() // Call the sign-in method when the layout is clicked
+            signInWithGoogle()
         }
     }
 
@@ -73,16 +70,61 @@ class MainActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     Log.d("MainActivity", "signInWithCredential:success")
-                    navigateToWelcomeActivity() // Navigate to WelcomeActivity after successful login
+                    val user = firebaseAuth.currentUser
+                    user?.let {
+                        val userId = it.uid
+                        val email = it.email
+                        val name = "User"
+
+                        val userMap = mapOf(
+                            "email" to email,
+                            "name" to name
+                        )
+
+                        val database = FirebaseDatabase.getInstance()
+                        val usersRef = database.getReference("users")
+
+                        usersRef.child(userId).setValue(userMap)
+                            .addOnCompleteListener { dbTask ->
+                                if (dbTask.isSuccessful) {
+                                    Log.d("MainActivity", "User data added to database")
+                                    checkUserName(userId)
+                                } else {
+                                    Log.w("MainActivity", "Failed to add user data to database", dbTask.exception)
+                                }
+                            }
+                    }
                 } else {
                     Log.w("MainActivity", "signInWithCredential:failure", task.exception)
                 }
             }
     }
 
+    private fun checkUserName(userId: String) {
+        val database = FirebaseDatabase.getInstance()
+        val usersRef = database.getReference("users").child(userId)
+
+        usersRef.child("name").get().addOnSuccessListener { dataSnapshot ->
+            val name = dataSnapshot.getValue(String::class.java)
+            if (name != null && name != "User") {
+                navigateToWelcomeActivity()
+            } else {
+                navigateToUserStartActivity()
+            }
+        }.addOnFailureListener {
+            navigateToUserStartActivity()
+        }
+    }
+
+    private fun navigateToUserStartActivity() {
+        val intent = Intent(this, UserStartActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
     private fun navigateToWelcomeActivity() {
         val intent = Intent(this, WelcomeActivity::class.java)
         startActivity(intent)
-        finish() // Close MainActivity to prevent the user from returning to it
+        finish()
     }
 }

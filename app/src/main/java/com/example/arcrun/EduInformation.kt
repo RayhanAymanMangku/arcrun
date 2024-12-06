@@ -1,10 +1,11 @@
 package com.example.arcrun
 
 import GetUser
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -15,16 +16,17 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.card.MaterialCardView
 
-class WelcomeActivity : AppCompatActivity() {
+class EduInformation : AppCompatActivity() {
 
     private lateinit var userHandler: GetUser
 
+
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_welcome)
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.welcomeActivity)) { v, insets ->
+        setContentView(R.layout.activity_edu_information)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.eduInformationActivity)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -35,9 +37,22 @@ class WelcomeActivity : AppCompatActivity() {
         bottomNavigation.setupBottomNavigation(bottomNavigationView)
 
 
-        val ticketPage = findViewById<LinearLayout>(R.id.nav2)
-        ticketPage.setOnClickListener {
-            val intent = Intent(this, DisplayProgram::class.java)
+        val educationCard = findViewById<MaterialCardView>(R.id.educationCard)
+        val educationCard2 = findViewById<MaterialCardView>(R.id.educationCard2)
+        val educationCard3 = findViewById<MaterialCardView>(R.id.educationCard3)
+
+        educationCard.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://medium.com/@shamimakhtar12220/morning-running-health-821d480c8e99"))
+            startActivity(intent)
+        }
+
+        educationCard2.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://medium.com/@MindMyFitness/running-health-experiments-111512a4dc60"))
+            startActivity(intent)
+        }
+
+        educationCard3.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://medium.com/illumination/running-is-destroying-your-heart-if-you-do-this-9445eaee568d"))
             startActivity(intent)
         }
 
@@ -62,27 +77,6 @@ class WelcomeActivity : AppCompatActivity() {
                 startActivity(navigateToProfile)
             }
         }
-
-        val eventPage = findViewById<MaterialCardView>(R.id.eventOnGoingCard)
-
-        eventPage.setOnClickListener {
-            val navToEventPage = Intent(this, BuyTicketActivity::class.java)
-            startActivity(navToEventPage)
-        }
-
-        val programCard = findViewById<MaterialCardView>(R.id.programCard)
-
-        programCard.setOnClickListener {
-            val navToDisplayProgram = Intent(this, DisplayProgram::class.java)
-            startActivity(navToDisplayProgram)
-        }
-
-        val eduInfoCard = findViewById<MaterialCardView>(R.id.educationCard)
-        eduInfoCard.setOnClickListener {
-            val navToEduInfo = Intent(this, EduInformation::class.java)
-            startActivity(navToEduInfo)
-        }
-
 
     }
 }

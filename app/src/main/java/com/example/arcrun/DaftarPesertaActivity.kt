@@ -26,6 +26,7 @@ class DaftarPesertaActivity : AppCompatActivity() {
 
         userHandler = GetUser ()
 
+
         val userNameTextView = findViewById<TextView>(R.id.textViewAyman)
         val userProfileImage = findViewById<ImageView>(R.id.profileButton)
 
