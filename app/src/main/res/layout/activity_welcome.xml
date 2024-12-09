@@ -1,0 +1,465 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/welcomeActivity"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="30dp"
+                android:background="@color/black"
+                tools:context=".WelcomeActivity">
+
+    <!-- Header -->
+    <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Selamat Datang"
+            android:textSize="14sp"
+            android:layout_marginStart="30dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
+
+    <ImageView
+            android:id="@+id/profileButton"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="30dp"
+            android:src="@drawable/default_profile_image"/>
+
+    <TextView
+            android:id="@+id/textViewAyman"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView"
+            android:text="User"
+            android:textColor="@color/white"
+            android:layout_marginStart="30dp"
+            android:textSize="24dp"/>
+
+    <!-- ScrollView for  all Cards -->
+    <ScrollView
+            android:id="@+id/cardContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textViewAyman"
+            android:layout_marginTop="20dp">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Event lari Terkini, Buruan Daftar !"
+                    android:textSize="20sp"
+                    android:textColor="@color/white"
+                    android:layout_marginStart="30dp"
+                    android:textStyle="bold"/>
+
+            <!-- First Card -->
+            <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/eventOnGoingCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginTop="20dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="0dp">
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/eventImage"
+                        android:background="@drawable/program"
+                        android:paddingHorizontal="20dp"
+                        android:paddingBottom="20dp"
+                        android:gravity="bottom">
+
+                    <RelativeLayout
+                            android:id="@+id/eventRectangle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="20dp"
+                            android:background="@drawable/rounded_card_bg">
+
+                        <!-- Name and Quota Info -->
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:id="@+id/eventName"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:weightSum="1">
+
+                            <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.5"
+                                    android:text="Jogja Virtual Running 2024"
+                                    android:textStyle="bold"
+                                    android:textSize="14sp"/>
+
+                            <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.5"
+                                    android:text="Kuota Tersedia"
+                                    android:textColor="#22c55e"
+                                    android:textStyle="bold"
+                                    android:textSize="10sp"
+                                    android:layout_gravity="top"
+                                    android:gravity="end"/>
+                        </LinearLayout>
+
+                        <!-- Registration Deadline Info -->
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/eventName"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="4dp"
+                                android:gravity="center_vertical"
+                                android:weightSum="1">
+
+                            <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.5"
+                                    android:text="Batas akhir pendaftaran"
+                                    android:textColor="#6b7280"
+                                    android:layout_gravity="bottom"
+                                    android:textSize="10sp"/>
+
+                            <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.5"
+                                    android:text="31/11/2024"
+                                    android:textColor="#6b7280"
+                                    android:textSize="10sp"
+                                    android:gravity="end"/>
+                        </LinearLayout>
+
+                    </RelativeLayout>
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <!-- Second Card -->
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tingkatkan Pencapaianmu"
+                    android:textSize="20sp"
+                    android:textColor="@color/white"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="20dp"
+                    android:textStyle="bold"/>
+
+            <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginTop="20dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="0dp">
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        android:padding="20dp">
+
+                    <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/rounded_card_bg">
+
+                        <!-- Name and Quota Info -->
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:weightSum="1">
+
+                            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                       android:background="@drawable/bronze"/>
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:layout_marginLeft="20dp">
+                                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                                          android:layout_gravity="top" android:text="Perunggu" android:textSize="14sp"
+                                          android:textStyle="bold"/>
+                                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                                          android:layout_gravity="top" android:text="Dapatkan medali sekitar 5 achievments untuk meraih Perunggu" android:textSize="10sp" android:textColor="#6b7280"
+                                          android:textStyle="bold"/>
+                                <ProgressBar
+                                        style="?android:attr/progressBarStyleHorizontal"
+                                        android:layout_width="120dp"
+                                        android:layout_height="wrap_content"
+                                        android:id="@+id/progressBar"/>
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </RelativeLayout>
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <!-- Third Card (Now inside ScrollView) -->
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Edukasi untuk kesehatanmu!"
+                    android:textSize="20sp"
+                    android:textColor="@color/white"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="20dp"
+                    android:textStyle="bold"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Meningkatkan kesehatanmu 2x lipat !"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"
+                    android:layout_marginStart="30dp"/>
+
+            <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/educationCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginTop="20dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="0dp">
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/eventImage2"
+                        android:background="@drawable/edu1"
+                        android:padding="20dp">
+
+                    <TextView
+                            android:id="@+id/textViewEventName2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Berlari baik untuk kesehatan"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:textColor="#fff"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"/>
+
+                    <FrameLayout
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="10dp"
+                            android:background="@drawable/circle_backround_arrow">
+
+                        <ImageView
+                                android:id="@+id/detailEvent2"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_arrow_right"
+                                android:tint="#000000"/>
+                    </FrameLayout>
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Buat Program Latihanmu"
+                    android:textSize="20sp"
+                    android:textColor="@color/white"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="20dp"
+                    android:textStyle="bold"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Susun program latihan untuk beberapa hari"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"
+                    android:layout_marginStart="30dp"/>
+
+            <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/programCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginBottom="100dp"
+                    android:layout_marginTop="20dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="0dp">
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/healthedu"
+                        android:padding="20dp">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:textColor="#fff"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"/>
+
+                    <FrameLayout
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="10dp"
+                            android:background="@drawable/circle_backround_arrow">
+
+                        <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_arrow_right"
+                                android:tint="#000000"/>
+                    </FrameLayout>
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Bottom Navigation Bar -->
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_alignParentBottom="true">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottomNavigationContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@color/black">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+            >
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        android:id="@+id/nav1"
+                        android:orientation="vertical">
+
+                    <ImageView
+                            android:id="@+id/imgNav1"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="8dp"
+                            app:srcCompat="@drawable/trophy"/>
+
+                    <TextView
+                            android:id="@+id/textNav1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="4dp"
+                            android:text="Beranda"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"/>
+                </LinearLayout>
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        android:id="@+id/nav2"
+                        android:orientation="vertical">
+
+                    <ImageView
+                            android:id="@+id/imgNav2"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="8dp"
+                            app:srcCompat="@drawable/ticket"/>
+
+                    <TextView
+                            android:id="@+id/textNav2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="4dp"
+                            android:text="Tiket"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"/>
+                </LinearLayout>
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        android:id="@+id/nav3"
+                        android:orientation="vertical">
+
+                    <ImageView
+                            android:id="@+id/imgNav3"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="8dp"
+                            app:srcCompat="@drawable/note"/>
+
+                    <TextView
+                            android:id="@+id/textNav3"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="4dp"
+                            android:text="Histori"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"/>
+                </LinearLayout>
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        android:orientation="vertical">
+
+                    <ImageView
+                            android:id="@+id/imgNav4"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="8dp"
+                            app:srcCompat="@drawable/trophy"/>
+
+                    <TextView
+                            android:id="@+id/textNav4"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="4dp"
+                            android:text="Pencapaian"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"/>
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.bottomnavigation.BottomNavigationView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</RelativeLayout>
+
