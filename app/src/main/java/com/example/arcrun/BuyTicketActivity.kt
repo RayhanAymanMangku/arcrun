@@ -86,15 +86,8 @@ class BuyTicketActivity : AppCompatActivity() {
                             this@BuyTicketActivity, LinearLayoutManager.VERTICAL, false
                         )
 
-                        // Pass the listener to the adapter
-                        binding.displayAllEvents.adapter = EventTickets(
-                            items, this@BuyTicketActivity, eventIds,
-                            object : EventTickets.OnEventClickListener {
-                                override fun onEventClick(eventId: String, eventName: String, eventDesc: String, eventImage: String?, eventPrice: Int) {
-                                    navigateToDetailEvent(eventId, eventName, eventDesc, eventImage, eventPrice)
-                                }
-                            }
-                        )
+                        // Set adapter without listener
+                        binding.displayAllEvents.adapter = EventTickets(items, this@BuyTicketActivity, eventIds)
                         (binding.displayAllEvents.adapter as EventTickets).notifyDataSetChanged()
                     } else {
                         Toast.makeText(this@BuyTicketActivity, "No events found.", Toast.LENGTH_SHORT).show()
@@ -110,14 +103,13 @@ class BuyTicketActivity : AppCompatActivity() {
         })
     }
 
-    private fun navigateToDetailEvent(eventId: String, eventName: String, eventDesc: String, eventImage: String?, eventPrice: Int) {
+    private fun navigateToDetailEvent(eventIds: String, eventName: String, eventDesc: String, eventImage: String?, eventPrice: Int) {
         val intent = Intent(this, DetailEventActivity::class.java)
-        intent.putExtra("event_id", eventId)
+        intent.putExtra("event_id", eventIds)
         intent.putExtra("event_name", eventName)
         intent.putExtra("event_desc", eventDesc)
         intent.putExtra("event_image", eventImage)
         intent.putExtra("event_price", eventPrice)
         startActivity(intent)
     }
-
 }

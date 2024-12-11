@@ -40,7 +40,7 @@ class PaymentMidtrans : AppCompatActivity() {
             .withContext(applicationContext)
             .withMerchantClientKey("SB-Mid-client-O1xxtK0Y2EGeDKIh")
             .withColorTheme(CustomColorTheme("#FFE51255", "#B61548", "#FFE51255"))
-            .withMerchantUrl("http://bebesimple.go-cow.com/ppresponse.php/")
+            .withMerchantUrl("https://3805-114-10-151-98.ngrok-free.app/get-snap-token/")
             .enableLog(true)
             .build()
         startPayment()
@@ -50,8 +50,8 @@ class PaymentMidtrans : AppCompatActivity() {
         val eventId = intent.getStringExtra("event_id")
         val eventName = intent.getStringExtra("event_name")
         val eventPrice = intent.getIntExtra("event_price", 0)
-
-        if (eventId != null && eventName != null) {
+        val userId = intent.getStringExtra("user_id")
+        if (eventId != null && eventName != null && userId != null) {
             val snapToken = intent.getStringExtra("snap_token")
 
             if (snapToken.isNullOrEmpty()) {
@@ -60,7 +60,7 @@ class PaymentMidtrans : AppCompatActivity() {
                 return
             }
 
-            saveSnapTokenToFirebase(eventId, snapToken, eventPrice, eventName)
+            saveSnapTokenToFirebase(userId, eventId, snapToken, eventPrice, eventName)
 
             val transactionRequest = TransactionRequest(eventId, eventPrice.toDouble()).apply {
                 itemDetails = arrayListOf(
@@ -81,9 +81,9 @@ class PaymentMidtrans : AppCompatActivity() {
         }
     }
 
-    fun saveSnapTokenToFirebase(orderId: String, token: String, price: Int, eventName: String) {
+    fun saveSnapTokenToFirebase(userId: String, orderId: String, token: String, price: Int, eventName: String) {
         val database = FirebaseDatabase.getInstance()
-        val ref = database.getReference("tokens")
+        val ref = database.getReference("tokens").child(userId)
 
         val tokenData = mapOf(
             "orderId" to orderId,

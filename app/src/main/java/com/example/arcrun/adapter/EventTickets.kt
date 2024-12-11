@@ -17,13 +17,8 @@ import com.example.arcrun.databinding.CardEventItemsBinding
 class EventTickets(
     private val items: ArrayList<EventTicketModels>,
     private val context: Context,
-    private val eventIds: List<String>,
-    private val listener: OnEventClickListener // Add listener parameter
+    private val eventIds: List<String> // Perbaikan nama variabel
 ) : RecyclerView.Adapter<EventTickets.Viewholder>() {
-
-    interface OnEventClickListener {
-        fun onEventClick(eventId: String, eventName: String, eventDesc: String, eventImage: String?, eventPrice: Int)
-    }
 
     inner class Viewholder(private val binding: CardEventItemsBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -33,7 +28,7 @@ class EventTickets(
             binding.eventName.text = item.nama_event
             binding.statusTxt.text = item.status_event
             binding.eventDate.text = item.waktu_mulai
-            binding.priceEvent.text = "Rp. ${item.harga}"
+            binding.priceEvent.text = "${item.harga}"
 
             when (item.status_event) {
                 "Active" -> {
@@ -48,8 +43,14 @@ class EventTickets(
             }
 
             binding.root.setOnClickListener {
-                // Call listener when event is clicked
-                listener.onEventClick(item.nama_event ?: "", item.nama_event ?: "", item.deskripsi ?: "", item.gambar, item.harga)
+                val intent = Intent(context, DetailEventActivity::class.java)
+                intent.putExtra("event_name", item.nama_event)
+                intent.putExtra("event_status", item.status_event)
+                intent.putExtra("event_image", item.gambar)
+                intent.putExtra("event_desc", item.deskripsi)
+                intent.putExtra("event_price", item.harga)
+                intent.putExtra("event_id", eventId)
+                context.startActivity(intent)
             }
 
             // Load gambar menggunakan Glide

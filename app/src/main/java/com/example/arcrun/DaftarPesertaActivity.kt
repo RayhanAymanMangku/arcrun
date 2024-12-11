@@ -117,13 +117,15 @@ class DaftarPesertaActivity : AppCompatActivity() {
         val category = binding.kategoriInput.selectedItem.toString()
         val jerseySize = binding.sizeJerseyInput.selectedItem.toString()
         val namaBib = binding.bibInput.text.toString()
+        val riwayatPenyakit = binding.riwayatPenyakitInput.text.toString()
 
-        if (name.isEmpty() || ttl.isEmpty() || email.isEmpty() || phone == null || emergencyContact == null || namaBib.isEmpty()) {
+        if (name.isEmpty() || ttl.isEmpty() || email.isEmpty() || phone == null || emergencyContact == null || namaBib.isEmpty() || riwayatPenyakit.isEmpty()) {
             Toast.makeText(this, "Semua kolom harus diisi!", Toast.LENGTH_SHORT).show()
             return
         }
 
         val orderId = "ORDER-${System.currentTimeMillis()}"
+        val eventId = intent.getStringExtra("event_id")
         val userId = firebaseAuth.currentUser?.uid
 
         if (userId != null) {
@@ -137,11 +139,19 @@ class DaftarPesertaActivity : AppCompatActivity() {
                 category = category,
                 jerseySize = jerseySize,
                 namaBib = namaBib,
-                orderId = orderId
+                orderId = orderId,
+                eventId = eventId ?: "",
+                user_id = userId,
+                riwayatPenyakit = riwayatPenyakit
+
             )
 
-            // Simpan peserta ke Firebase Database
-            database.reference.child("Peserta").child(userId).push().setValue(participantData)
+            // Get a reference to the "Peserta" node and push a new child to generate a unique key
+            val participantsRef = database.getReference("Peserta")
+            val newParticipantRef = participantsRef.push()
+
+            // Save the participant data under the unique key
+            newParticipantRef.setValue(participantData)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Toast.makeText(this, "Pendaftaran berhasil!", Toast.LENGTH_SHORT).show()
@@ -149,17 +159,18 @@ class DaftarPesertaActivity : AppCompatActivity() {
                         // Generate Snap Token
                         val snapToken = UUID.randomUUID().toString()
 
-                        // Simpan Snap Token ke Firebase
-                        PaymentMidtrans().saveSnapTokenToFirebase(orderId, snapToken, intent.getIntExtra("event_price", 0), intent.getStringExtra("event_name") ?: "Event")
+                        // Save Snap Token to Firebase
+                        PaymentMidtrans().saveSnapTokenToFirebase(userId, orderId, snapToken, intent.getIntExtra("event_price", 0), intent.getStringExtra("event_name") ?: "Event")
 
-                        // Pass data dan Snap Token ke PaymentMidtrans
+                        // Pass data and Snap Token to PaymentMidtrans
                         val pembayaranIntent = Intent(this, PaymentMidtrans::class.java)
-                        pembayaranIntent.putExtra("event_id", intent.getStringExtra("event_id"))
+                        pembayaranIntent.putExtra("event_id", eventId)
                         pembayaranIntent.putExtra("event_name", intent.getStringExtra("event_name"))
                         pembayaranIntent.putExtra("event_price", intent.getIntExtra("event_price", 0))
                         pembayaranIntent.putExtra("snap_token", snapToken)
+                        pembayaranIntent.putExtra("user_id", userId)
 
-                        // Mulai pembayaran Midtrans dan menunggu hasilnya
+                        // Start Midtrans payment and wait for result
                         startActivity(pembayaranIntent)
                     } else {
                         Toast.makeText(this, "Terjadi kesalahan, coba lagi!", Toast.LENGTH_SHORT).show()

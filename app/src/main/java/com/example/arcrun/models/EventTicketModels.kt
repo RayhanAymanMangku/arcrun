@@ -14,6 +14,7 @@ data class EventTicketModels(
     var nama_event: String? = null,
     var status_event: String? = null,
     var waktu_mulai: String? = null,
+    var event_id: String? = null
 
 ): Parcelable {
     constructor(parcel: Parcel) : this(
@@ -27,6 +28,7 @@ data class EventTicketModels(
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
+        parcel.readString()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -40,6 +42,7 @@ data class EventTicketModels(
         parcel.writeString(nama_event)
         parcel.writeString(status_event)
         parcel.writeString(waktu_mulai)
+        parcel.writeString(event_id)
     }
 
     override fun describeContents(): Int {
