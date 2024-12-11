@@ -2,31 +2,35 @@ package com.example.arcrun
 
 import GetUser
 import Participant
-import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.android.volley.Request
+import com.android.volley.RequestQueue
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.arcrun.databinding.ActivityDaftarPesertaBinding
 import com.example.arcrun.payments.PaymentMidtrans
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import org.json.JSONObject
 import java.util.*
 
 class DaftarPesertaActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityDaftarPesertaBinding
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var database: FirebaseDatabase
-    private lateinit var userHandler: GetUser
-
-    // Tambahkan konstanta REQUEST_PAYMENT
-    private val REQUEST_PAYMENT = 1001
+    private lateinit var requestQueue: RequestQueue
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,76 +39,50 @@ class DaftarPesertaActivity : AppCompatActivity() {
 
         firebaseAuth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance()
-        userHandler = GetUser()
+        requestQueue = Volley.newRequestQueue(this)
 
-        val kategoriList = listOf("Lari 5K", "Lari 10K", "Maraton")
-        val adapterKategori = ArrayAdapter(this, android.R.layout.simple_spinner_item, kategoriList)
-        adapterKategori.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.kategoriInput.adapter = adapterKategori
-
-        val genderList = listOf("Laki-Laki", "Perempuan")
-        val adapterGender = ArrayAdapter(this, android.R.layout.simple_spinner_item, genderList)
-        adapterGender.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.jenisKelaminInput.adapter = adapterGender
-
-        val sizeJerseyList = listOf("S", "M", "L", "XL")
-        val adapterSizeJersey = ArrayAdapter(this, android.R.layout.simple_spinner_item, sizeJerseyList)
-        adapterSizeJersey.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.sizeJerseyInput.adapter = adapterSizeJersey
-
+        setupDropdowns()
         setupUI()
         setupUserProfile()
     }
 
-    private fun setupUI() {
-        binding.tanggalLahirInput.setOnClickListener {
-            showDatePicker()
-        }
+    private fun setupDropdowns() {
+        val kategoriList = listOf("Lari 5K", "Lari 10K", "Maraton")
+        val genderList = listOf("Laki-Laki", "Perempuan")
+        val sizeJerseyList = listOf("S", "M", "L", "XL")
 
-        binding.submitBtn.setOnClickListener {
-            submitForm()
-        }
+        binding.kategoriInput.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, kategoriList)
+        binding.jenisKelaminInput.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, genderList)
+        binding.sizeJerseyInput.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, sizeJerseyList)
+    }
+
+    private fun setupUI() {
+        binding.tanggalLahirInput.setOnClickListener { showDatePicker() }
+        binding.submitBtn.setOnClickListener { submitForm() }
     }
 
     private fun setupUserProfile() {
         val userNameTextView = findViewById<TextView>(R.id.textViewAyman)
         val userProfileImage = findViewById<ImageView>(R.id.profileButton)
 
-        userHandler.getCurrentUser { user ->
+        GetUser().getCurrentUser { user ->
             userNameTextView.text = user.name
-            if (user.profileImageUrl != null) {
-                Glide.with(this)
-                    .load(user.profileImageUrl)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(userProfileImage)
-            } else {
-                userProfileImage.setImageResource(R.drawable.default_profile_image)
-            }
+            Glide.with(this)
+                .load(user.profileImageUrl ?: R.drawable.default_profile_image)
+                .apply(RequestOptions.circleCropTransform())
+                .into(userProfileImage)
 
             userProfileImage.setOnClickListener {
-                val navigateToProfile = Intent(this, UserProfile::class.java)
-                startActivity(navigateToProfile)
+                startActivity(Intent(this, UserProfile::class.java))
             }
         }
     }
 
     private fun showDatePicker() {
         val calendar = Calendar.getInstance()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-        val datePickerDialog = DatePickerDialog(
-            this,
-            { _, selectedYear, selectedMonth, selectedDay ->
-                val date = "${selectedDay}/${selectedMonth + 1}/${selectedYear}"
-                binding.tanggalLahirInput.setText(date)
-            },
-            year,
-            month,
-            day
-        )
-        datePickerDialog.show()
+        DatePickerDialog(this, { _, year, month, day ->
+            binding.tanggalLahirInput.setText("$day/${month + 1}/$year")
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
     }
 
     private fun submitForm() {
@@ -118,82 +96,77 @@ class DaftarPesertaActivity : AppCompatActivity() {
         val jerseySize = binding.sizeJerseyInput.selectedItem.toString()
         val namaBib = binding.bibInput.text.toString()
         val riwayatPenyakit = binding.riwayatPenyakitInput.text.toString()
+        val eventId = intent.getStringExtra("event_id")
+        val eventName = intent.getStringExtra("event_name")
+        val eventPrice = intent.getIntExtra("event_price", 0)
 
         if (name.isEmpty() || ttl.isEmpty() || email.isEmpty() || phone == null || emergencyContact == null || namaBib.isEmpty() || riwayatPenyakit.isEmpty()) {
             Toast.makeText(this, "Semua kolom harus diisi!", Toast.LENGTH_SHORT).show()
             return
         }
 
-        val orderId = "ORDER-${System.currentTimeMillis()}"
-        val eventId = intent.getStringExtra("event_id")
         val userId = firebaseAuth.currentUser?.uid
+        val orderId = "ORDER-${System.currentTimeMillis()}"
 
         if (userId != null) {
+            // Simpan data peserta ke database Firebase
             val participantData = Participant(
-                name = name,
-                gender = gender,
-                ttl = ttl,
-                email = email,
-                phone = phone,
-                emergencyContact = emergencyContact,
-                category = category,
-                jerseySize = jerseySize,
-                namaBib = namaBib,
-                orderId = orderId,
-                eventId = eventId ?: "",
-                user_id = userId,
-                riwayatPenyakit = riwayatPenyakit
-
+                name, gender, ttl, email, phone, emergencyContact, category, jerseySize, namaBib, orderId, eventId ?: "", userId, riwayatPenyakit
             )
 
-            // Get a reference to the "Peserta" node and push a new child to generate a unique key
-            val participantsRef = database.getReference("Peserta")
-            val newParticipantRef = participantsRef.push()
-
-            // Save the participant data under the unique key
-            newParticipantRef.setValue(participantData)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Toast.makeText(this, "Pendaftaran berhasil!", Toast.LENGTH_SHORT).show()
-
-                        // Generate Snap Token
-                        val snapToken = UUID.randomUUID().toString()
-
-                        // Save Snap Token to Firebase
-                        PaymentMidtrans().saveSnapTokenToFirebase(userId, orderId, snapToken, intent.getIntExtra("event_price", 0), intent.getStringExtra("event_name") ?: "Event")
-
-                        // Pass data and Snap Token to PaymentMidtrans
-                        val pembayaranIntent = Intent(this, PaymentMidtrans::class.java)
-                        pembayaranIntent.putExtra("event_id", eventId)
-                        pembayaranIntent.putExtra("event_name", intent.getStringExtra("event_name"))
-                        pembayaranIntent.putExtra("event_price", intent.getIntExtra("event_price", 0))
-                        pembayaranIntent.putExtra("snap_token", snapToken)
-                        pembayaranIntent.putExtra("user_id", userId)
-
-                        // Start Midtrans payment and wait for result
-                        startActivity(pembayaranIntent)
-                    } else {
-                        Toast.makeText(this, "Terjadi kesalahan, coba lagi!", Toast.LENGTH_SHORT).show()
-                    }
+            val participantsRef = database.getReference("Peserta").push()
+            participantsRef.setValue(participantData).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(this, "Pendaftaran berhasil!", Toast.LENGTH_SHORT).show()
+                    // Lanjutkan ke pembayaran setelah pendaftaran berhasil
+                    startPayment(userId, orderId, eventPrice, eventName ?: "Event")
+                } else {
+                    Toast.makeText(this, "Terjadi kesalahan, coba lagi!", Toast.LENGTH_SHORT).show()
                 }
+            }
         } else {
             Toast.makeText(this, "Pengguna tidak terautentikasi!", Toast.LENGTH_SHORT).show()
         }
     }
 
-    // Mengganti onActivityResult dengan mengatur hasil pembayaran
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_PAYMENT) {
-            // Handle payment result (success or failure)
-            if (resultCode == RESULT_OK) {
-                // Pembayaran sukses, lanjutkan ke halaman berikutnya atau tampilkan konfirmasi
-                Toast.makeText(this, "Pembayaran sukses!", Toast.LENGTH_SHORT).show()
-                finish() // Tutup aktivitas hanya setelah pembayaran selesai
-            } else {
-                // Pembayaran gagal, tampilkan pesan error
-                Toast.makeText(this, "Pembayaran gagal!", Toast.LENGTH_SHORT).show()
-            }
+    private fun startPayment(userId: String, orderId: String, price: Int, eventName: String) {
+        val url = "https://8d90-114-10-150-102.ngrok-free.app/create-snap-token"
+
+        val jsonObject = JSONObject().apply {
+            put("userId", userId)
+            put("orderId", orderId)
+            put("price", price)
+            put("eventName", eventName)
         }
+
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.POST, url, jsonObject,
+            Response.Listener { response ->
+                val snapToken = response.optString("snapToken")
+                if (!snapToken.isNullOrEmpty()) {
+                    Log.d("PaymentMidtrans", "Snap Token received: $snapToken")
+                    // Proceed to Midtrans Payment with snapToken
+                    proceedWithPayment(snapToken, orderId, price, eventName)
+                } else {
+                    Toast.makeText(this, "Snap Token tidak valid!", Toast.LENGTH_SHORT).show()
+                }
+            },
+            Response.ErrorListener { error ->
+                Log.e("PaymentMidtrans", "Error fetching Snap Token: ${error.message}")
+                Toast.makeText(this, "Gagal mengambil Snap Token!", Toast.LENGTH_SHORT).show()
+            }
+        )
+
+        requestQueue.add(jsonObjectRequest)
+    }
+
+    private fun proceedWithPayment(snapToken: String, orderId: String, price: Int, eventName: String) {
+        val intent = Intent(this, PaymentMidtrans::class.java).apply {
+            putExtra("snap_token", snapToken)
+            putExtra("order_id", orderId)
+            putExtra("event_price", price)
+            putExtra("event_name", eventName)
+        }
+        startActivity(intent)
     }
 }

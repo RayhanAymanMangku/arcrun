@@ -65,6 +65,7 @@ dependencies {
     implementation(libs.androidx.coordinatorlayout)
     implementation(libs.firebase.database.ktx)
     implementation(libs.androidx.wear)
+    implementation(libs.volley)
 
     // Testing Libraries
     testImplementation(libs.junit)
