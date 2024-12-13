@@ -11,18 +11,19 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.android.volley.Request
-import com.android.volley.RequestQueue
-import com.android.volley.Response
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.arcrun.databinding.ActivityDaftarPesertaBinding
+import com.example.arcrun.models.OrderRequest
+import com.example.arcrun.network.ApiClient
+import com.example.arcrun.network.ApiService
 import com.example.arcrun.payments.PaymentMidtrans
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import org.json.JSONObject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 
 class DaftarPesertaActivity : AppCompatActivity() {
@@ -30,16 +31,15 @@ class DaftarPesertaActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDaftarPesertaBinding
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var database: FirebaseDatabase
-    private lateinit var requestQueue: RequestQueue
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDaftarPesertaBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        Log.d("DaftarPesertaActivity", "Intent extras: ${intent.extras}")
 
         firebaseAuth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance()
-        requestQueue = Volley.newRequestQueue(this)
 
         setupDropdowns()
         setupUI()
@@ -86,22 +86,44 @@ class DaftarPesertaActivity : AppCompatActivity() {
     }
 
     private fun submitForm() {
-        val name = binding.namaPesertaInput.text.toString()
-        val gender = binding.jenisKelaminInput.selectedItem.toString()
-        val ttl = binding.tanggalLahirInput.text.toString()
-        val email = binding.emailInput.text.toString()
-        val phone = binding.teleponInput.text.toString().toDoubleOrNull()
-        val emergencyContact = binding.kontakDaruratInput.text.toString().toDoubleOrNull()
-        val category = binding.kategoriInput.selectedItem.toString()
-        val jerseySize = binding.sizeJerseyInput.selectedItem.toString()
-        val namaBib = binding.bibInput.text.toString()
-        val riwayatPenyakit = binding.riwayatPenyakitInput.text.toString()
+        // Mengambil data event dari intent pada saat form disubmit
         val eventId = intent.getStringExtra("event_id")
         val eventName = intent.getStringExtra("event_name")
         val eventPrice = intent.getIntExtra("event_price", 0)
 
-        if (name.isEmpty() || ttl.isEmpty() || email.isEmpty() || phone == null || emergencyContact == null || namaBib.isEmpty() || riwayatPenyakit.isEmpty()) {
+        // Log untuk memeriksa data event yang diambil
+        Log.d("DaftarPesertaActivity", "Event ID: $eventId")
+        Log.d("DaftarPesertaActivity", "Event Name: $eventName")
+        Log.d("DaftarPesertaActivity", "Event Price: $eventPrice")
+
+        // Validasi data form
+        val name = binding.namaPesertaInput.text.toString()
+        val gender = binding.jenisKelaminInput.selectedItem.toString()
+        val ttl = binding.tanggalLahirInput.text.toString()
+        val email = binding.emailInput.text.toString()
+        val phone = binding.teleponInput.text.toString()
+        val emergencyContact = binding.kontakDaruratInput.text.toString()
+        val category = binding.kategoriInput.selectedItem.toString()
+        val jerseySize = binding.sizeJerseyInput.selectedItem.toString()
+        val namaBib = binding.bibInput.text.toString()
+        val riwayatPenyakit = binding.riwayatPenyakitInput.text.toString()
+
+        // Validasi jika event data tidak ditemukan
+        if (eventId == null || eventName == null || eventPrice == 0) {
+            Log.e("DetailEventActivity", "Event data not found!")
+            Toast.makeText(this, "Data event tidak valid!", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Validasi form peserta
+        if (name.isEmpty() || ttl.isEmpty() || email.isEmpty() || phone.isEmpty() || emergencyContact.isEmpty() || namaBib.isEmpty() || riwayatPenyakit.isEmpty()) {
             Toast.makeText(this, "Semua kolom harus diisi!", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Validasi harga event
+        if (eventPrice <= 0) {
+            Toast.makeText(this, "Harga event tidak valid!", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -109,17 +131,28 @@ class DaftarPesertaActivity : AppCompatActivity() {
         val orderId = "ORDER-${System.currentTimeMillis()}"
 
         if (userId != null) {
-            // Simpan data peserta ke database Firebase
-            val participantData = Participant(
-                name, gender, ttl, email, phone, emergencyContact, category, jerseySize, namaBib, orderId, eventId ?: "", userId, riwayatPenyakit
+            val participant = Participant(
+                name = name,
+                gender = gender,
+                ttl = ttl,
+                email = email,
+                phone = phone,
+                emergencyContact = emergencyContact,
+                category = category,
+                jerseySize = jerseySize,
+                namaBib = namaBib,
+                riwayatPenyakit = riwayatPenyakit,
+                orderId = orderId,
+                eventId = eventId ?: "",
+                userId = userId,
+                eventPrice = eventPrice
             )
 
             val participantsRef = database.getReference("Peserta").push()
-            participantsRef.setValue(participantData).addOnCompleteListener { task ->
+            participantsRef.setValue(participant).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(this, "Pendaftaran berhasil!", Toast.LENGTH_SHORT).show()
-                    // Lanjutkan ke pembayaran setelah pendaftaran berhasil
-                    startPayment(userId, orderId, eventPrice, eventName ?: "Event")
+                    createOrder(userId, participant, eventPrice, eventName ?: "Event")
                 } else {
                     Toast.makeText(this, "Terjadi kesalahan, coba lagi!", Toast.LENGTH_SHORT).show()
                 }
@@ -129,44 +162,44 @@ class DaftarPesertaActivity : AppCompatActivity() {
         }
     }
 
-    private fun startPayment(userId: String, orderId: String, price: Int, eventName: String) {
-        val url = "https://8d90-114-10-150-102.ngrok-free.app/create-snap-token"
-
-        val jsonObject = JSONObject().apply {
-            put("userId", userId)
-            put("orderId", orderId)
-            put("price", price)
-            put("eventName", eventName)
-        }
-
-        val jsonObjectRequest = JsonObjectRequest(
-            Request.Method.POST, url, jsonObject,
-            Response.Listener { response ->
-                val snapToken = response.optString("snapToken")
-                if (!snapToken.isNullOrEmpty()) {
-                    Log.d("PaymentMidtrans", "Snap Token received: $snapToken")
-                    // Proceed to Midtrans Payment with snapToken
-                    proceedWithPayment(snapToken, orderId, price, eventName)
-                } else {
-                    Toast.makeText(this, "Snap Token tidak valid!", Toast.LENGTH_SHORT).show()
-                }
-            },
-            Response.ErrorListener { error ->
-                Log.e("PaymentMidtrans", "Error fetching Snap Token: ${error.message}")
-                Toast.makeText(this, "Gagal mengambil Snap Token!", Toast.LENGTH_SHORT).show()
-            }
+    private fun createOrder(userId: String, participant: Participant, eventPrice: Int, eventName: String) {
+        val orderRequest = OrderRequest(
+            orderData = participant,
+            eventPrice = eventPrice
         )
+        val apiService = ApiClient.createService(ApiService::class.java)
 
-        requestQueue.add(jsonObjectRequest)
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = apiService.createOrder(userId, orderRequest)
+
+                withContext(Dispatchers.Main) {
+                    if (response.statusCode == 200) {
+                        val snapToken = response.data.midtransToken.token
+                        if (!snapToken.isNullOrEmpty()) {
+                            startPayment(snapToken, participant.orderId, eventPrice, eventName)
+                        } else {
+                            Toast.makeText(this@DaftarPesertaActivity, "Snap Token tidak ditemukan!", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(this@DaftarPesertaActivity, "Gagal membuat pesanan!", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@DaftarPesertaActivity, "Terjadi kesalahan: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
-
-    private fun proceedWithPayment(snapToken: String, orderId: String, price: Int, eventName: String) {
+    private fun startPayment(snapToken: String, orderId: String, eventPrice: Int, eventName: String) {
         val intent = Intent(this, PaymentMidtrans::class.java).apply {
             putExtra("snap_token", snapToken)
             putExtra("order_id", orderId)
-            putExtra("event_price", price)
+            putExtra("event_price", eventPrice)
             putExtra("event_name", eventName)
         }
         startActivity(intent)
     }
+
 }

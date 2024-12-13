@@ -3,13 +3,14 @@ data class Participant(
     val gender: String,
     val ttl: String,
     val email: String,
-    val phone: Double,
-    val emergencyContact: Double,
+    val phone: String,
+    val emergencyContact: String,
     val category: String,
     val jerseySize: String,
     val namaBib: String,
-    val orderId: String,
+    val riwayatPenyakit: String,
     val eventId: String,
-    val user_id: String,
-    val riwayatPenyakit: String
+    val userId: String,
+    val orderId: String,
+    val eventPrice: Int
 )

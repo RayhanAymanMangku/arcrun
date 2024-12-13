@@ -17,6 +17,8 @@ coordinatorlayout = "1.2.0"
 firebaseDatabaseKtx = "21.0.0"
 wear = "1.3.0"
 volley = "1.2.1"
+toolsCore = "1.0.0-alpha10"
+billing = "1.0.0-alpha11"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -35,6 +37,8 @@ androidx-coordinatorlayout = { group = "androidx.coordinatorlayout", name = "coo
 firebase-database-ktx = { group = "com.google.firebase", name = "firebase-database-ktx", version.ref = "firebaseDatabaseKtx" }
 androidx-wear = { group = "androidx.wear", name = "wear", version.ref = "wear" }
 volley = { group = "com.android.volley", name = "volley", version.ref = "volley" }
+androidx-tools-core = { group = "androidx.privacysandbox.tools", name = "tools-core", version.ref = "toolsCore" }
+billing = { group = "com.google.androidbrowserhelper", name = "billing", version.ref = "billing" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

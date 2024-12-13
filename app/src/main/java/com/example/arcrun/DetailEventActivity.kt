@@ -13,7 +13,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.arcrun.models.EventTicketModels
 
 class DetailEventActivity : AppCompatActivity() {
 
@@ -38,7 +37,7 @@ class DetailEventActivity : AppCompatActivity() {
         val eventPrice = intent.getIntExtra("event_price", 0)
 
         if (eventId != null && eventName != null && eventDesc != null) {
-            Log.d("DetailEventActivity", "Received event: Name=$eventName, ID=$eventId")
+            Log.d("DetailEventActivity", "Received event: Name=$eventName, ID=$eventId, Price=$eventPrice", )
             // Menampilkan data ke UI
             displayEventDetails(eventName, eventDesc, eventImage, eventPrice)
         } else {
