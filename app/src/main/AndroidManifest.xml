@@ -24,7 +24,6 @@
         <activity
             android:name=".DetailProgram"
             android:exported="false" />
-        <activity android:name=".payments.PaymentMidtrans" />
         <activity
             android:name=".UserStartActivity"
             android:exported="false" />

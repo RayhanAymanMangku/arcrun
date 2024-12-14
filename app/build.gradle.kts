@@ -82,6 +82,4 @@ dependencies {
     implementation ("com.midtrans:uikit:2.0.0-SANDBOX")
     implementation ("com.midtrans:uikit:2.0.0")
     implementation ("com.android.volley:volley:1.2.1")
-
-
 }
