@@ -10,7 +10,7 @@ data class EventTicketModels(
     var harga: Int = 0,
     var kategori: String? = null,
     var kuota: Int = 0,
-    var lokasi: String? = null,
+    var lokasi: LokasiModels? = null,
     var nama_event: String? = null,
     var status_event: String? = null,
     var waktu_mulai: String? = null,
@@ -24,8 +24,7 @@ data class EventTicketModels(
         parcel.readInt(),
         parcel.readString(),
         parcel.readInt(),
-        parcel.readString(),
-        parcel.readString(),
+        parcel.readParcelable(LokasiModels::class.java.classLoader),        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString()
@@ -38,7 +37,7 @@ data class EventTicketModels(
         parcel.writeInt(harga)
         parcel.writeString(kategori)
         parcel.writeInt(kuota)
-        parcel.writeString(lokasi)
+        parcel.writeParcelable(lokasi, flags)
         parcel.writeString(nama_event)
         parcel.writeString(status_event)
         parcel.writeString(waktu_mulai)
