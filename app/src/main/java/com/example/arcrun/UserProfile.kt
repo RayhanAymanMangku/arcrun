@@ -57,7 +57,7 @@ class UserProfile : AppCompatActivity() {
         val userNotification = findViewById<ImageView>(R.id.notificationBtn)
 
         userNotification.setOnClickListener {
-            val navigateToNotif = Intent(this, notification_activity::class.java)
+            val navigateToNotif = Intent(this, NotificationActivity::class.java)
             startActivity(navigateToNotif)
         }
 

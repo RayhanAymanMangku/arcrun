@@ -2,9 +2,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
 data class User(
+    val id: String, // Tambahkan properti ID
     val name: String,
     val profileImageUrl: String?,
-    val email:String?
+    val email: String?
 )
 
 class GetUser {
@@ -25,6 +26,7 @@ class GetUser {
                 val userEmail = dataSnapshot.child("email").getValue(String::class.java) ?: "User Email"
 
                 val user = User(
+                    id = userId, // Set ID dari currentUser.uid
                     name = name,
                     profileImageUrl = profileImageUrl,
                     email = userEmail
@@ -32,6 +34,7 @@ class GetUser {
                 onUser(user)
             }.addOnFailureListener {
                 val user = User(
+                    id = userId, // Set ID meskipun ada kegagalan
                     name = "User",
                     profileImageUrl = currentUser.photoUrl?.toString(),
                     email = "User Email"
@@ -40,6 +43,7 @@ class GetUser {
             }
         } else {
             val user = User(
+                id = "Guest", // ID diisi sebagai Guest jika user tidak login
                 name = "Guest",
                 profileImageUrl = null,
                 email = "User Email"

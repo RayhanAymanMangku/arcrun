@@ -3,7 +3,6 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/view_detailprogram"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="8dp">
@@ -11,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="95dp"
-            android:background="@drawable/rounded_orange_btn"
+            android:background="@drawable/rounded_card_program"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -66,13 +65,20 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-            <Button
-                    android:id="@+id/buttonChecklist"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/checklist"
+            <!--            <Button-->
+            <!--                android:id="@+id/buttonChecklist"-->
+            <!--                android:layout_width="30dp"-->
+            <!--                android:layout_height="35dp"-->
+            <!--                android:textColorLink="@drawable/checklist"-->
+            <!--                android:background="@drawable/checklist" />-->
+
+
+            <TextView
+                    android:id="@+id/gambar_checklist"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:textColor="#808080"
-                    android:textColorLink="#808080" />
+                    android:background="@drawable/checklist" />
         </FrameLayout>
 
 

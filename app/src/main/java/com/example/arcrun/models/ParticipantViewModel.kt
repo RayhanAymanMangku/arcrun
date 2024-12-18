@@ -1,4 +1,5 @@
 import androidx.lifecycle.ViewModel
+import com.example.arcrun.models.Participant
 
 class ParticipantViewModel(private val repository: ParticipantRepository) : ViewModel() {
 

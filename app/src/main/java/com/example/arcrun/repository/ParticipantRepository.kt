@@ -1,3 +1,4 @@
+import com.example.arcrun.models.Participant
 import com.google.firebase.database.FirebaseDatabase
 
 class ParticipantRepository(private val firebaseDatabase: FirebaseDatabase) {

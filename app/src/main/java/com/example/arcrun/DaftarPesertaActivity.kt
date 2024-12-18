@@ -1,7 +1,6 @@
 package com.example.arcrun
 
 import GetUser
-import Participant
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
@@ -17,11 +16,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.arcrun.databinding.ActivityDaftarPesertaBinding
+import com.example.arcrun.models.Participant
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.midtrans.sdk.uikit.api.model.CustomColorTheme
 import com.midtrans.sdk.uikit.external.UiKitApi
-import com.example.arcrun.network.NetworkUtils  // Import NetworkUtils
+import com.example.arcrun.network.NetworkUtils
+import com.google.firebase.database.GenericTypeIndicator
 import java.util.*
 
 class DaftarPesertaActivity : AppCompatActivity() {
@@ -31,10 +32,11 @@ class DaftarPesertaActivity : AppCompatActivity() {
     private lateinit var database: FirebaseDatabase
     private lateinit var clientKey: String
     private lateinit var baseUrl: String
-    private var eventPrice: Int = 0  // Event price will be retrieved from the Intent
+    private var eventPrice: Int = 0
+    private var participant: Participant? = null
 
-    // Declare paymentLauncher at the class level
     private lateinit var paymentLauncher: ActivityResultLauncher<Intent>
+    private lateinit var userHandler: GetUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,34 +46,55 @@ class DaftarPesertaActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance()
 
-        // Retrieve the event details passed from the previous screen via Intent
         val eventId = intent.getStringExtra("event_id")
         val eventName = intent.getStringExtra("event_name")
         eventPrice = intent.getIntExtra("event_price", 0)
 
-        // Log the event details to verify it's being passed correctly
         Log.d("DaftarPesertaActivity", "Event ID: $eventId")
         Log.d("DaftarPesertaActivity", "Event Name: $eventName")
         Log.d("DaftarPesertaActivity", "Event Price: $eventPrice")
 
-        clientKey = "Mid-client-6RENkc4aeBYKJfVf"  // Replace with your actual client key
-        baseUrl = "https://possible-flying-mammal.ngrok-free.app"  // Replace with your server base URL
+        clientKey = "Mid-client-6RENkc4aeBYKJfVf"
+        baseUrl = "https://possible-flying-mammal.ngrok-free.app"
 
         setupDropdowns()
         setupUI()
-        setupUserProfile()
-        showDatePicker()
-
         setupSubmitButton(eventId, eventName, eventPrice)
 
-        // Initialize the ActivityResultLauncher for payment
         paymentLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                // Handle the result of the payment here
-                Toast.makeText(this, "Payment successful", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Pembayaran berhasil!", Toast.LENGTH_SHORT).show()
+                // Get transaction data from the result
+                val transactionStatus = result.data?.getStringExtra("transaction_status") ?: "Unknown"
+                val paymentMethod = result.data?.getStringExtra("payment_method") ?: "Unknown"
+                val transactionId = result.data?.getStringExtra("transaction_id") ?: "Unknown"
+
+                // Save the transaction data to Firebase
+                saveDataToFirebase(transactionStatus, paymentMethod, transactionId)
             } else {
-                // Handle payment failure or cancellation
-                Toast.makeText(this, "Payment failed or canceled", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Pembayaran dibatalkan atau gagal", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        userHandler = GetUser()
+
+        val userNameTextView = findViewById<TextView>(R.id.textViewAyman)
+        val userProfileImage = findViewById<ImageView>(R.id.profileButton)
+
+        userHandler.getCurrentUser { user ->
+            userNameTextView.text = user.name
+            if (user.profileImageUrl != null) {
+                Glide.with(this)
+                    .load(user.profileImageUrl)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(userProfileImage)
+            } else {
+                userProfileImage.setImageResource(R.drawable.default_profile_image)
+            }
+
+            userProfileImage.setOnClickListener {
+                val navigateToProfile = Intent(this, UserProfile::class.java)
+                startActivity(navigateToProfile)
             }
         }
     }
@@ -90,24 +113,6 @@ class DaftarPesertaActivity : AppCompatActivity() {
         binding.tanggalLahirInput.setOnClickListener { showDatePicker() }
     }
 
-    private fun setupUserProfile() {
-        val userNameTextView = findViewById<TextView>(R.id.textViewAyman)
-        val userProfileImage = findViewById<ImageView>(R.id.profileButton)
-
-        GetUser().getCurrentUser { user ->
-            userNameTextView.text = user.name
-            Glide.with(this)
-                .load(user.profileImageUrl ?: R.drawable.default_profile_image)
-                .apply(RequestOptions.circleCropTransform())
-                .into(userProfileImage)
-
-            userProfileImage.setOnClickListener {
-                startActivity(Intent(this, UserProfile::class.java))
-            }
-        }
-    }
-
-    // Function to set up the DatePicker for selecting a date
     private fun showDatePicker() {
         val calendar = Calendar.getInstance()
         DatePickerDialog(this, { _, year, month, day ->
@@ -115,10 +120,8 @@ class DaftarPesertaActivity : AppCompatActivity() {
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
     }
 
-    // Function to set up the Submit Button
     private fun setupSubmitButton(eventId: String?, eventName: String?, eventPrice: Int) {
         binding.submitBtn.setOnClickListener {
-            // Validate and collect form data
             val name = binding.namaPesertaInput.text.toString()
             val gender = binding.jenisKelaminInput.selectedItem.toString()
             val ttl = binding.tanggalLahirInput.text.toString()
@@ -130,30 +133,20 @@ class DaftarPesertaActivity : AppCompatActivity() {
             val namaBib = binding.bibInput.text.toString()
             val riwayatPenyakit = binding.riwayatPenyakitInput.text.toString()
 
-            // Validate form inputs
-            if (name.isEmpty() || ttl.isEmpty() || email.isEmpty() || phone.isEmpty() || emergencyContact.isEmpty() || namaBib.isEmpty() || riwayatPenyakit.isEmpty()) {
+            if (name.isEmpty() || ttl.isEmpty() || email.isEmpty() || phone.isEmpty() || emergencyContact.isEmpty() || namaBib.isEmpty()) {
                 Toast.makeText(this, "Semua kolom harus diisi!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Validate event data
-            if (eventId == null || eventName == null || eventPrice <= 0) {
-                Toast.makeText(this, "Data event tidak valid!", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            // Check if the user is authenticated
             val userId = firebaseAuth.currentUser?.uid
             if (userId == null) {
                 Toast.makeText(this, "Pengguna tidak terautentikasi!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Generate order ID
             val orderId = "ORDER-${System.currentTimeMillis()}"
 
-            // Create Participant object
-            val participant = Participant(
+            participant = Participant(
                 name = name,
                 gender = gender,
                 ttl = ttl,
@@ -165,57 +158,88 @@ class DaftarPesertaActivity : AppCompatActivity() {
                 namaBib = namaBib,
                 riwayatPenyakit = riwayatPenyakit,
                 orderId = orderId,
-                eventId = eventId,
+                eventId = eventId ?: "",
                 userId = userId,
                 eventPrice = eventPrice
             )
 
-            // Save participant data to Firebase
-            val participantsRef = database.getReference("Peserta").push()
-            participantsRef.setValue(participant).addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Toast.makeText(this, "Pendaftaran berhasil!", Toast.LENGTH_SHORT).show()
-                    // Proceed with the payment process
-                    fetchSnapToken(orderId, eventPrice)
-                } else {
-                    Toast.makeText(this, "Terjadi kesalahan, coba lagi!", Toast.LENGTH_SHORT).show()
-                }
-            }
+            fetchSnapToken(orderId, eventPrice, participant!!)
         }
     }
 
-    private fun fetchSnapToken(orderId: String, grossAmount: Int) {
+    private fun fetchSnapToken(orderId: String, grossAmount: Int, participant: Participant) {
         NetworkUtils.generateSnapToken(orderId, grossAmount) { snapToken ->
             runOnUiThread {
                 if (snapToken != null) {
-                    Log.d("Midtrans", "Snap Token received: $snapToken")
-                    initiatePayment(snapToken)
-                    startPaymentWithSnapToken(this, snapToken, paymentLauncher)
+                    initiatePayment(snapToken, participant)
                 } else {
-                    Toast.makeText(this, "Failed to retrieve Snap Token", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Gagal mendapatkan Snap Token", Toast.LENGTH_LONG).show()
                 }
             }
         }
     }
 
-
-
-    // Function to initiate the Midtrans payment using the Snap Token
-    private fun initiatePayment(snapToken: String) {
-        // Build the Midtrans SDK with necessary configurations
+    private fun initiatePayment(snapToken: String, participant: Participant) {
         UiKitApi.Builder()
             .withContext(this)
             .withMerchantClientKey(clientKey)
-            .withColorTheme(CustomColorTheme("#FFE51255", "#B61548", "#FFE51255"))
-            .withMerchantUrl(baseUrl)  // URL of your merchant (your server)
+            .withColorTheme(CustomColorTheme("#002855", "#383942", "#FFE51255"))
+            .withMerchantUrl(baseUrl)
             .enableLog(true)
             .build()
+
+        UiKitApi.getDefaultInstance().startPaymentUiFlow(this, paymentLauncher, snapToken)
     }
 
-    // Function to start payment with the Snap Token
-    private fun startPaymentWithSnapToken(activity: Activity, snapToken: String, launcher: ActivityResultLauncher<Intent>) {
-        UiKitApi.getDefaultInstance().startPaymentUiFlow(activity, launcher, snapToken)
-        finish()
+    private fun saveDataToFirebase(transactionStatus: String, paymentMethod: String, transactionId: String) {
+        val userId = firebaseAuth.currentUser?.uid
+        if (userId == null) {
+            Toast.makeText(this, "Pengguna tidak terautentikasi", Toast.LENGTH_SHORT).show()
+            return
+        }
 
+        participant?.let {
+            val updatedParticipant = it.copy(
+                // Tidak ada data transaksi yang dimasukkan
+            )
+
+            val participantsRef = database.getReference("Peserta").push()
+            Log.d("DaftarPesertaActivity", "Saving data to Firebase at ${participantsRef.key}")
+
+            participantsRef.setValue(updatedParticipant)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        // Update user's orders array
+                        val userRef = database.getReference("users").child(userId)
+                        userRef.child("orders").get().addOnSuccessListener { dataSnapshot ->
+                            val orders = dataSnapshot.getValue(object : GenericTypeIndicator<List<String>>() {})?.toMutableList() ?: mutableListOf()
+                            orders.add(it.orderId)
+
+                            userRef.child("orders").setValue(orders)
+                                .addOnCompleteListener { updateTask ->
+                                    if (updateTask.isSuccessful) {
+                                        Toast.makeText(this, "Data berhasil disimpan dan order diperbarui!", Toast.LENGTH_SHORT).show()
+                                        finish()
+                                    } else {
+                                        Toast.makeText(this, "Gagal memperbarui order", Toast.LENGTH_SHORT).show()
+                                        updateTask.exception?.let { e ->
+                                            Log.e("DaftarPesertaActivity", "Error updating orders: ${e.message}")
+                                        }
+                                    }
+                                }
+                        }.addOnFailureListener { e ->
+                            Toast.makeText(this, "Gagal mengambil data order", Toast.LENGTH_SHORT).show()
+                            Log.e("DaftarPesertaActivity", "Error fetching orders: ${e.message}")
+                        }
+                    } else {
+                        Toast.makeText(this, "Gagal menyimpan data", Toast.LENGTH_SHORT).show()
+                        task.exception?.let { e ->
+                            Log.e("DaftarPesertaActivity", "Error saving data: ${e.message}")
+                        }
+                    }
+                }
+        } ?: run {
+            Toast.makeText(this, "Data peserta tidak valid", Toast.LENGTH_SHORT).show()
+        }
     }
 }

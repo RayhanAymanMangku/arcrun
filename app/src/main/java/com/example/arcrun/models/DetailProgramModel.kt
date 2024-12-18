@@ -4,10 +4,10 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class DetailProgramModel(
-    val hari: String,
-    val jumlah_hari: Int,
-    val tanggal_waktu: String,
-    val button_checklist: String
+    val hari: String? = "",
+    val jumlah_hari: Int = 0,
+    var tanggal_waktu: String? = "",
+    var gambar_checklist: String? = ""
 ) : Parcelable {
 
     // Constructor untuk membaca data dari Parcel
@@ -23,7 +23,7 @@ data class DetailProgramModel(
         parcel.writeString(hari)
         parcel.writeInt(jumlah_hari)
         parcel.writeString(tanggal_waktu)
-        parcel.writeString(button_checklist)
+        parcel.writeString(gambar_checklist)
     }
 
     // Deskripsi konten Parcel

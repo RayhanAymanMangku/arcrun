@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">arcrun</string>
     <string name="client_id">144854567597-tokg5ghkg9uug2epsrqgs9ndh1dl8nr0.apps.googleusercontent.com</string>
-
+    <string name="map_api">AIzaSyCZry9Q4Ll9jFjGmpH__XdbvgmfmP4WDlQ</string>
 </resources>

@@ -6,10 +6,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.example.arcrun.DetailProgram
-import com.example.arcrun.R
 import com.example.arcrun.databinding.ViewholderProgramBinding
 import com.example.arcrun.models.ProgramModels
 import java.text.SimpleDateFormat
@@ -17,14 +14,14 @@ import java.util.Calendar
 import java.util.Locale
 
 class BuatProgram(
-
     private val items: ArrayList<ProgramModels>, // List program
+    private val programId: List<String>,
     private val context: Context
 ) : RecyclerView.Adapter<BuatProgram.Viewholder>() {
 
     inner class Viewholder(private val binding: ViewholderProgramBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ProgramModels) {
+        fun bind(item: ProgramModels, programid: String) {
 
             // perubahan pada foramt tanggal yang cocok
             val currentDate = Calendar.getInstance().time
@@ -54,14 +51,10 @@ class BuatProgram(
             }
 
 
-            binding.namaProgramTxt.setOnClickListener {
+            binding.root.setOnClickListener {
                 // Kirim Intent ke DetailProgram
-                val intent = Intent(context, DetailProgram::class.java)
-
-                // Pastikan Anda mengirimkan `programId` ke DetailProgram
-                val programId = item.programId// Ambil `program_id` dari data program yang ada
-                intent.putExtra("programId", programId) // Kirim `programId`
-
+                val intent = Intent(this@BuatProgram.context, DetailProgram::class.java)
+                intent.putExtra("programId", programid) // Kirim programId
                 // Memulai Activity DetailProgram
                 context.startActivity(intent)
             }
@@ -76,7 +69,7 @@ class BuatProgram(
     }
 
     override fun onBindViewHolder(holder: Viewholder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(items[position], programId[position])
     }
 
     override fun getItemCount(): Int = items.size

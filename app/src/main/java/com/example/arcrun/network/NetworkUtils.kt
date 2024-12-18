@@ -1,5 +1,5 @@
 package com.example.arcrun.network
-
+// untuk transaksi midtrans di server
 import android.util.Log
 
 import okhttp3.*
