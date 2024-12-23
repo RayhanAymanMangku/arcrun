@@ -3,21 +3,30 @@ package com.example.arcrun
 import GetUser
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
-import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.card.MaterialCardView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+
 
 class WelcomeActivity : AppCompatActivity() {
 
     private lateinit var userHandler: GetUser
+    private lateinit var auth: FirebaseAuth
+    private lateinit var database: FirebaseDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,9 +39,8 @@ class WelcomeActivity : AppCompatActivity() {
             insets
         }
 
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationContainer)
-        val bottomNavigation = BottomNavigation(this)
-        bottomNavigation.setupBottomNavigation(bottomNavigationView)
+        auth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance()
 
 
         userHandler = GetUser ()
@@ -64,6 +72,18 @@ class WelcomeActivity : AppCompatActivity() {
             startActivity(navToEventPage)
         }
 
+        val tiket = findViewById<ImageView>(R.id.imgNav2)
+        tiket.setOnClickListener {
+            val toTiket = Intent(this, DisplayProgram::class.java)
+            startActivity(toTiket)
+        }
+
+        val achievement = findViewById<ImageView>(R.id.imgNav4)
+        achievement.setOnClickListener {
+            val toAchievement = Intent(this, AchievementProgram::class.java)
+            startActivity(toAchievement)
+        }
+
         val programCard = findViewById<MaterialCardView>(R.id.programCard)
 
         programCard.setOnClickListener {
@@ -76,5 +96,55 @@ class WelcomeActivity : AppCompatActivity() {
             val navToEduInfo = Intent(this, EduInformation::class.java)
             startActivity(navToEduInfo)
         }
+
+        loadAchievementData()
+    }
+
+
+    private fun loadAchievementData() {
+        val currentUserId = auth.currentUser?.uid ?: return
+        val achievementRef = database.getReference("Achievement").child(currentUserId)
+
+        achievementRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val rank = snapshot.child("rank").value?.toString() ?: "Bronze"
+                val totalMedali = snapshot.child("total_medali").value?.toString()?.toInt() ?: 0
+
+                // Hitung batas progres rank berikutnya
+                val maxProgress = when (rank) {
+                    "Bronze" -> 30
+                    "Silver" -> 60
+                    else -> 60 // Gold
+                }
+
+                val currentProgress = when (rank) {
+                    "Bronze" -> totalMedali
+                    "Silver" -> totalMedali - 30
+                    else -> 30 // Gold
+                }
+
+                // Update UI
+                val rankTextView = findViewById<TextView>(R.id.namaAchievement)
+                val progressBar = findViewById<ProgressBar>(R.id.progressBar)
+                val progressTextView = findViewById<TextView>(R.id.descAchievement)
+                val medalImageView = findViewById<ImageView>(R.id.imageAchievement)
+
+                rankTextView.text = "$rank"
+                progressBar.max = maxProgress
+                progressBar.progress = currentProgress
+                progressTextView.text = "Dapatkan medali hingga $maxProgress untuk meraih rank selanjutnya"
+
+                when (rank) {
+                    "Bronze" -> medalImageView.setImageResource(R.drawable.bronze)
+                    "Silver" -> medalImageView.setImageResource(R.drawable.silver)
+                    "Gold" -> medalImageView.setImageResource(R.drawable.gold)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("WelcomeActivity", "Gagal membaca data: ${error.message}")
+                Toast.makeText(this@WelcomeActivity, "Gagal memuat data", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }

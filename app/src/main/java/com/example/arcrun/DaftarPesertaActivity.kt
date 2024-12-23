@@ -6,10 +6,7 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -18,11 +15,10 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.arcrun.databinding.ActivityDaftarPesertaBinding
 import com.example.arcrun.models.Participant
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
 import com.midtrans.sdk.uikit.api.model.CustomColorTheme
 import com.midtrans.sdk.uikit.external.UiKitApi
 import com.example.arcrun.network.NetworkUtils
-import com.google.firebase.database.GenericTypeIndicator
+import com.google.firebase.database.*
 import java.util.*
 
 class DaftarPesertaActivity : AppCompatActivity() {
@@ -31,6 +27,7 @@ class DaftarPesertaActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var database: FirebaseDatabase
     private lateinit var clientKey: String
+
     private lateinit var baseUrl: String
     private var eventPrice: Int = 0
     private var participant: Participant? = null
@@ -76,6 +73,7 @@ class DaftarPesertaActivity : AppCompatActivity() {
             }
         }
 
+
         userHandler = GetUser()
 
         val userNameTextView = findViewById<TextView>(R.id.textViewAyman)
@@ -98,6 +96,8 @@ class DaftarPesertaActivity : AppCompatActivity() {
             }
         }
     }
+
+
 
     private fun setupDropdowns() {
         val kategoriList = listOf("Lari 5K", "Lari 10K", "Maraton")
@@ -190,6 +190,7 @@ class DaftarPesertaActivity : AppCompatActivity() {
 
         UiKitApi.getDefaultInstance().startPaymentUiFlow(this, paymentLauncher, snapToken)
     }
+
 
     private fun saveDataToFirebase(transactionStatus: String, paymentMethod: String, transactionId: String) {
         val userId = firebaseAuth.currentUser?.uid

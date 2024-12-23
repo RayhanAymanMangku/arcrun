@@ -21,13 +21,13 @@ class AdapterDetailProgram(
 
     inner class DetailViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val hariTextView: TextView = itemView.findViewById(R.id.hariTxt)
-        private val jumlahHariTextView: TextView = itemView.findViewById(R.id.numberDayTxt)
+//        private val jumlahHariTextView: TextView = itemView.findViewById(R.id.numberDayTxt)
         private val tanggalTextView: TextView = itemView.findViewById(R.id.tanggalWaktuTxt)
         private val buttonChecklist: TextView = itemView.findViewById(R.id.gambar_checklist)
 
         fun bind(program: DetailProgramModel, position: Int) {
             hariTextView.text = program.hari
-            jumlahHariTextView.text = "${program.jumlah_hari}"
+//            jumlahHariTextView.text = "${program.jumlah_hari}"
             tanggalTextView.text = program.tanggal_waktu
 
             val drawable = buttonChecklist.background as? android.graphics.drawable.VectorDrawable

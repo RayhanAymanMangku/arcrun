@@ -14,6 +14,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.card.MaterialCardView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -60,19 +61,10 @@ class AchievementProgram : AppCompatActivity() {
             }
         }
 
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationContainer)
+        val bottomNavigation = BottomNavigation(this)
+        bottomNavigation.setupBottomNavigation(bottomNavigationView)
 
-
-        val tiket = findViewById<ImageView>(R.id.imgNav2)
-        tiket.setOnClickListener {
-            val toTiket = Intent(this, DisplayProgram::class.java)
-            startActivity(toTiket)
-        }
-
-        val achievement = findViewById<ImageView>(R.id.imgNav4)
-        achievement.setOnClickListener {
-            val toAchievement = Intent(this, AchievementProgram::class.java)
-            startActivity(toAchievement)
-        }
 
         // Update achievement saat layar dibuka
         updateAchievementAndProgressBar()

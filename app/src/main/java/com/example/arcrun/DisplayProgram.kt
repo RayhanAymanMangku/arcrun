@@ -48,34 +48,36 @@ class DisplayProgram : AppCompatActivity() {
         // Memuat program berdasarkan UID pengguna yang sedang login
         initViewProgram()
 
-        userHandler = GetUser()
+
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationContainer)
         val bottomNavigation = BottomNavigation(this)
         bottomNavigation.setupBottomNavigation(bottomNavigationView)
 
 
-        val userNameTextView = findViewById<TextView>(R.id.textView3)
-        val userProfileImage = findViewById<ImageView>(R.id.profile)
+        userHandler = GetUser ()
 
-        userHandler.getCurrentUser { user ->
-            userNameTextView?.let {
-                it.text = user.name
-                if (user.profileImageUrl != null) {
-                    Glide.with(this)
-                        .load(user.profileImageUrl)
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(userProfileImage)
-                } else {
-                    userProfileImage.setImageResource(R.drawable.default_profile_image)
-                }
+        val userNameTextView = findViewById<TextView>(R.id.textViewAyman)
+        val userProfileImage = findViewById<ImageView>(R.id.profileButton)
 
-                userProfileImage.setOnClickListener {
-                    val navigateToProfile = Intent(this, UserProfile::class.java)
-                    startActivity(navigateToProfile)
-                }
-            } ?: Log.e("DisplayProgram", "TextView is null")
+        userHandler.getCurrentUser  { user ->
+            userNameTextView.text = user.name
+            if (user.profileImageUrl != null) {
+                Glide.with(this)
+                    .load(user.profileImageUrl)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(userProfileImage)
+            } else {
+                userProfileImage.setImageResource(R.drawable.default_profile_image)
+            }
+
+            userProfileImage.setOnClickListener {
+                val navigateToProfile = Intent(this, UserProfile::class.java)
+                startActivity(navigateToProfile)
+            }
         }
+
+
     }
 
     private fun initViewProgram() {

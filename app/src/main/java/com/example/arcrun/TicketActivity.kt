@@ -18,6 +18,7 @@ import com.example.arcrun.adapter.TicketAdapter
 import com.example.arcrun.databinding.ActivityTicketBinding
 import com.example.arcrun.models.EventTicketModels
 import com.example.arcrun.models.Participant
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -50,6 +51,10 @@ class TicketActivity : AppCompatActivity() {
 
         // Ambil data tiket berdasarkan user login
         fetchTicketsForCurrentUser()
+
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationContainer)
+        val bottomNavigation = BottomNavigation(this)
+        bottomNavigation.setupBottomNavigation(bottomNavigationView)
 
         userHandler.getCurrentUser { user -> binding.textViewAyman.text = user.name
             if (user.profileImageUrl != null) {

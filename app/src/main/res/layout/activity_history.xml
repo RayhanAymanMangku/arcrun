@@ -3,7 +3,6 @@
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:id="@+id/main"
-                android:padding="30dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/black"
@@ -36,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:layout_marginHorizontal="30dp"
-            android:textSize="24dp"
+            android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="@color/white"
             android:layout_below="@+id/textViewAyman"
@@ -45,20 +44,21 @@
     <ScrollView
             android:id="@+id/cardContainer"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_below="@id/tiketSayaTxt"
             android:layout_marginTop="20dp">
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="16dp"
+                android:paddingHorizontal="30dp"
+                android:layout_marginBottom="100dp"
                 android:orientation="vertical">
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/viewHistory"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="18dp"/>
+            />
         </LinearLayout>
     </ScrollView>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
