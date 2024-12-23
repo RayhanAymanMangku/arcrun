@@ -12,6 +12,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 
 class UserProfile : AppCompatActivity() {
@@ -29,6 +30,11 @@ class UserProfile : AppCompatActivity() {
         }
 
         userHandler = GetUser()
+
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationContainer)
+        val bottomNavigation = BottomNavigation(this)
+        bottomNavigation.setupBottomNavigation(bottomNavigationView)
+
 
         val userNameTextView = findViewById<TextView>(R.id.textViewUserProfile)
         val userProfileImage = findViewById<ImageView>(R.id.userProfileButton)

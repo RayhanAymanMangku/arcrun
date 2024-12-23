@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.arcrun.databinding.ActivityInputProgramBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
@@ -27,6 +28,10 @@ class InputProgramActivity : AppCompatActivity() {
 
         binding.startDateInput.setOnClickListener { showDatePicker { date -> binding.startDateInput.setText(date) } }
         binding.endDateInput.setOnClickListener { showDatePicker { date -> binding.endDateInput.setText(date) } }
+
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationContainer)
+        val bottomNavigation = BottomNavigation(this)
+        bottomNavigation.setupBottomNavigation(bottomNavigationView)
 
         binding.submitAddProgramBtn.setOnClickListener { saveProgramToFirebase() }
     }

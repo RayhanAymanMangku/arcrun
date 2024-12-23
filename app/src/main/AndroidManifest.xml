@@ -19,6 +19,15 @@
             android:theme="@style/Base.Theme.Arcrun"
             tools:targetApi="31">
         <activity
+                android:name=".AchievementProgram"
+                android:exported="false"/>
+        <activity
+                android:name=".HistoryActivity"
+                android:exported="false"/>
+        <activity
+                android:name=".TicketActivity"
+                android:exported="false"/>
+        <activity
                 android:name=".NotificationActivity"
                 android:exported="false"/>
 

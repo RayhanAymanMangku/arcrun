@@ -35,12 +35,6 @@ class WelcomeActivity : AppCompatActivity() {
         bottomNavigation.setupBottomNavigation(bottomNavigationView)
 
 
-        val ticketPage = findViewById<LinearLayout>(R.id.nav2)
-        ticketPage.setOnClickListener {
-            val intent = Intent(this, DisplayProgram::class.java)
-            startActivity(intent)
-        }
-
         userHandler = GetUser ()
 
         val userNameTextView = findViewById<TextView>(R.id.textViewAyman)
@@ -82,7 +76,5 @@ class WelcomeActivity : AppCompatActivity() {
             val navToEduInfo = Intent(this, EduInformation::class.java)
             startActivity(navToEduInfo)
         }
-
-
     }
 }

@@ -15,8 +15,10 @@ data class Participant(
     val userId: String = "",
     val orderId: String = "",
     val eventPrice: Int = 0,
-
+    var eventName: String? = null, // Tambahan
+    var locationName: String? = null, // Tambahan
+    var waktu_mulai: String? = null // Tambahan
 ) {
     // No-argument constructor required for Firebase
-    constructor() : this("", "", "", "", "", "", "", "", "", "", "", "", "", 0)
+    constructor() : this("", "", "", "", "", "", "", "", "", "", "", "", "", 0, "","","")
 }

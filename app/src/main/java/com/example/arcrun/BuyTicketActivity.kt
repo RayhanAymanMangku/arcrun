@@ -10,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -36,9 +37,7 @@ class BuyTicketActivity : AppCompatActivity() {
 
         userHandler = GetUser()
 
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationContainer)
-        val bottomNavigation = BottomNavigation(this)
-        bottomNavigation.setupBottomNavigation(bottomNavigationView)
+
 
         val userNameTextView = findViewById<TextView>(R.id.textViewAyman)
         val userProfileImage = findViewById<ImageView>(R.id.profileButton)

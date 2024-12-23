@@ -16,6 +16,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.arcrun.adapter.NotificationAdapter
 import com.example.arcrun.models.Transaction
 import com.example.arcrun.network.ApiService
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -76,6 +77,11 @@ class NotificationActivity : AppCompatActivity() {
 
             fetchUserOrders(user.id)
         }
+
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationContainer)
+        val bottomNavigation = BottomNavigation(this)
+        bottomNavigation.setupBottomNavigation(bottomNavigationView)
+
     }
 
     private fun fetchUserOrders(userId: String) {

@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import GetUser
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class DetailProgram : AppCompatActivity() {
@@ -47,6 +48,11 @@ class DetailProgram : AppCompatActivity() {
         binding.recyclerViewDetailProgram.adapter = adapter
 
         userHandler = GetUser()
+
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationContainer)
+        val bottomNavigation = BottomNavigation(this)
+        bottomNavigation.setupBottomNavigation(bottomNavigationView)
+
 
         val userNameTextView = findViewById<TextView>(R.id.textView3)
         val userProfileImage = findViewById<ImageView>(R.id.profile)

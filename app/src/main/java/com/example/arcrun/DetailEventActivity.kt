@@ -18,6 +18,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.*
 
 class DetailEventActivity : AppCompatActivity() {
@@ -38,6 +39,11 @@ class DetailEventActivity : AppCompatActivity() {
         userHandler = GetUser()
 
         setupUserProfile()
+
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationContainer)
+        val bottomNavigation = BottomNavigation(this)
+        bottomNavigation.setupBottomNavigation(bottomNavigationView)
+
 
         val eventId = intent.getStringExtra("event_id")
         val eventName = intent.getStringExtra("event_name")

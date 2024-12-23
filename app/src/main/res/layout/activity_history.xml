@@ -2,114 +2,65 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/inputProgramActivity"
+                android:id="@+id/main"
+                android:padding="30dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/black"
-                tools:context=".DisplayProgram">
+                tools:context=".HistoryActivity">
 
     <!-- Header -->
     <TextView
-            android:id="@+id/textView"
+            android:id="@+id/textViewAyman"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="User"
             android:layout_marginTop="30dp"
-            android:text="Selamat Datang"
-            android:textSize="14sp"
-            android:layout_marginStart="30dp"
             android:textColor="@color/white"
-            android:textStyle="bold"/>
-
-
+            android:layout_marginHorizontal="30dp"
+            android:textSize="24dp"/>
     <ImageView
             android:id="@+id/profileButton"
             android:layout_width="40dp"
             android:layout_height="50dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_margin="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginHorizontal="30dp"
             android:src="@drawable/default_profile_image"/>
 
 
     <TextView
-            android:id="@+id/textViewAyman"
+            android:id="@+id/tiketSayaTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/textView"
-            android:text="User"
+            android:layout_marginTop="30dp"
+            android:layout_marginHorizontal="30dp"
+            android:textSize="24dp"
+            android:textStyle="bold"
             android:textColor="@color/white"
-            android:layout_marginStart="30dp"
-            android:textSize="24dp"/>
+            android:layout_below="@+id/textViewAyman"
+            android:text="Tiket Saya" />
 
-
-    <!-- ScrollView for all Cards -->
     <ScrollView
             android:id="@+id/cardContainer"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_below="@id/textViewAyman"
-            android:layout_marginTop="20dp"
-            android:layout_above="@id/addBtn">
-
+            android:layout_below="@id/tiketSayaTxt"
+            android:layout_marginTop="20dp">
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingHorizontal="16dp"
                 android:orientation="vertical">
-
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Siapkan Program Larimu Sekarang"
-                    android:textSize="20sp"
-                    android:textColor="@color/white"
-                    android:layout_marginStart="30dp"
-                    android:textStyle="bold"/>
-
-
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/viewHistory"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="32dp"
-                        android:layout_marginVertical="24dp"/>
-            </LinearLayout>
+                    android:layout_height="match_parent"
+                    android:layout_margin="18dp"/>
         </LinearLayout>
     </ScrollView>
-
-
-    <!-- Add Button at the bottom-right -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/addBtn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="30dp"
-            android:layout_marginBottom="100dp"
-            android:padding="12dp"
-            android:background="@drawable/circle_backround_arrow"
-            android:backgroundTint="@color/orangeBtn">
-
-
-        <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:contentDescription="Add"
-                android:src="@drawable/ic_plus_white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
     <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="80dp"
@@ -232,11 +183,4 @@
             </LinearLayout>
         </com.google.android.material.bottomnavigation.BottomNavigationView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-
 </RelativeLayout>
-
-
-
-
-

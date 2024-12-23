@@ -15,6 +15,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.arcrun.adapter.BuatProgram
 import com.example.arcrun.databinding.ActivityProgramBinding
 import com.example.arcrun.models.ProgramModels
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -48,6 +49,11 @@ class DisplayProgram : AppCompatActivity() {
         initViewProgram()
 
         userHandler = GetUser()
+
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationContainer)
+        val bottomNavigation = BottomNavigation(this)
+        bottomNavigation.setupBottomNavigation(bottomNavigationView)
+
 
         val userNameTextView = findViewById<TextView>(R.id.textView3)
         val userProfileImage = findViewById<ImageView>(R.id.profile)

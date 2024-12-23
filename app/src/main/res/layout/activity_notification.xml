@@ -65,10 +65,12 @@
             android:layout_alignParentBottom="true">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/bottomNavigationContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
+
+                android:id="@+id/bottomNavigationContainer"
+
                 android:background="@color/black">
 
             <LinearLayout
@@ -155,6 +157,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.2"
+                        android:id="@+id/nav4"
                         android:orientation="vertical">
 
                     <ImageView

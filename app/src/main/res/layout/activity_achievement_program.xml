@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/main"
+        android:padding="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+
+        tools:context=".AchievementProgram">
+
+    <RelativeLayout
+            android:id="@+id/detailEvent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black">
+        <!-- Header -->
+        <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="Selamat Datang"
+                android:textSize="14sp"
+                android:layout_marginStart="30dp"
+                android:textColor="@color/white"
+                android:textStyle="bold"/>
+
+        <ImageView
+                android:id="@+id/profileButton"
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="30dp"
+                android:src="@drawable/default_profile_image"/>
+
+        <TextView
+                android:id="@+id/textViewAyman"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textView"
+                android:text="User"
+                android:textColor="@color/white"
+                android:layout_marginStart="30dp"
+                android:textSize="24dp"/>
+
+        <!-- ScrollView dengan Deskripsi Event -->
+        <androidx.core.widget.NestedScrollView
+                android:id="@+id/nestedScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/textViewAyman"
+                android:elevation="10dp"
+                android:layout_marginTop="5dp">
+
+            <RelativeLayout
+                    android:id="@+id/titleAchievement"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="30dp"
+                    android:background="@drawable/rounded_card_bg"
+                    android:elevation="10dp"
+                    android:padding="50dp">
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rounded_card_bg">
+
+                    <!-- Name and Quota Info -->
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                        <ImageView
+                                android:id="@+id/imageAchievement"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/bronze"/>
+
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="20dp"
+                                android:orientation="vertical">
+
+                            <TextView
+                                    android:id="@+id/namaAchievement"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="top"
+                                    android:text="Perunggu"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold"/>
+
+                            <TextView
+                                    android:id="@+id/descAchievement"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="top"
+                                    android:text="Dapatkan medali sekitar 5 achievments untuk meraih Perunggu"
+                                    android:textColor="#6b7280"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold"/>
+
+                            <ProgressBar
+                                    android:id="@+id/progressBar"
+                                    style="?android:attr/progressBarStyleHorizontal"
+                                    android:layout_width="120dp"
+                                    android:layout_height="wrap_content"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </RelativeLayout>
+            </RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <RelativeLayout
+                android:layout_width="381dp"
+                android:layout_height="300dp"
+                android:layout_alignTop="@id/nestedScrollView"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="133dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="150dp"
+                android:background="@drawable/rounded_card_detailed_achievement">
+
+            <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="20dp"
+                    android:layout_marginTop="70dp"
+                    app:cardBackgroundColor="@color/white"
+                    android:layout_marginBottom="12dp">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="18dp">
+
+                    <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/medali"/>
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Total Hari"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold"/>
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="total jumlah hari yang diselesaikan"
+                            android:textSize="12sp"/>
+
+                    <TextView
+                            android:id="@+id/totalHari"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:text="0"
+                            android:textSize="20sp"
+                            android:textStyle="bold"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="20dp"
+                    android:layout_marginTop="235dp"
+                    app:cardBackgroundColor="@color/white"
+                    android:layout_marginBottom="12dp">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        >
+
+                    <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/medali"/>
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Program Terselesaikan"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold"/>
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Total Program Terselesaikan"
+                            android:textSize="12sp"/>
+
+                    <TextView
+                            android:id="@+id/totalProgram"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:text="0"
+                            android:textSize="20sp"
+                            android:textStyle="bold"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_alignParentBottom="true">
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+
+                    android:id="@+id/bottomNavigationContainer"
+
+                    android:background="@color/black">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                >
+
+                    <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.2"
+                            android:id="@+id/nav1"
+                            android:orientation="vertical">
+
+                        <ImageView
+                                android:id="@+id/imgNav1"
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="8dp"
+                                app:srcCompat="@drawable/trophy"/>
+
+                        <TextView
+                                android:id="@+id/textNav1"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="4dp"
+                                android:text="Beranda"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"/>
+                    </LinearLayout>
+                    <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.2"
+                            android:id="@+id/nav2"
+                            android:orientation="vertical">
+
+                        <ImageView
+                                android:id="@+id/imgNav2"
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="8dp"
+                                app:srcCompat="@drawable/ticket"/>
+
+                        <TextView
+                                android:id="@+id/textNav2"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="4dp"
+                                android:text="Tiket"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"/>
+                    </LinearLayout>
+                    <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.2"
+                            android:id="@+id/nav3"
+                            android:orientation="vertical">
+
+                        <ImageView
+                                android:id="@+id/imgNav3"
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="8dp"
+                                app:srcCompat="@drawable/note"/>
+
+                        <TextView
+                                android:id="@+id/textNav3"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="4dp"
+                                android:text="Histori"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"/>
+                    </LinearLayout>
+                    <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.2"
+                            android:id="@+id/nav4"
+                            android:orientation="vertical">
+
+                        <ImageView
+                                android:id="@+id/imgNav4"
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="8dp"
+                                app:srcCompat="@drawable/trophy"/>
+
+                        <TextView
+                                android:id="@+id/textNav4"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="4dp"
+                                android:text="Pencapaian"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.bottomnavigation.BottomNavigationView>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
