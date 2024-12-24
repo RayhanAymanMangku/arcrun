@@ -35,9 +35,15 @@ class AchievementProgram : AppCompatActivity() {
             insets
         }
 
-        // Inisialisasi Firebase
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationContainer)
+        val bottomNavigation = BottomNavigation(this)
+        bottomNavigation.setupBottomNavigation(bottomNavigationView)
+
+        // Initialize Firebase
         auth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance()
+
+
 
         userHandler = GetUser()
 
@@ -61,13 +67,12 @@ class AchievementProgram : AppCompatActivity() {
             }
         }
 
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationContainer)
-        val bottomNavigation = BottomNavigation(this)
-        bottomNavigation.setupBottomNavigation(bottomNavigationView)
 
 
-        // Update achievement saat layar dibuka
+        // Update achievement when the screen opens
         updateAchievementAndProgressBar()
+
+
     }
 
     /**
@@ -99,8 +104,6 @@ class AchievementProgram : AppCompatActivity() {
                     totalMedali >= 30 -> "Silver"
                     else -> "Bronze"
                 }
-
-
 
                 // Hitung batas progres rank berikutnya
                 val maxProgress = when (rank) {

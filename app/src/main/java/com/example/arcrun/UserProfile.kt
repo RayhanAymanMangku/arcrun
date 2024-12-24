@@ -31,9 +31,7 @@ class UserProfile : AppCompatActivity() {
 
         userHandler = GetUser()
 
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationContainer)
-        val bottomNavigation = BottomNavigation(this)
-        bottomNavigation.setupBottomNavigation(bottomNavigationView)
+
 
 
         val userNameTextView = findViewById<TextView>(R.id.textViewUserProfile)

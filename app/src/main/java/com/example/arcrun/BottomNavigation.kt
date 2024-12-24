@@ -24,6 +24,5 @@ class BottomNavigation(private val context: Context) {
             val intent = Intent(context, AchievementProgram::class.java)
             context.startActivity(intent)
         }
-
     }
 }

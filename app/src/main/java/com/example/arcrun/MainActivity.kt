@@ -48,9 +48,6 @@ class MainActivity : AppCompatActivity() {
             signInWithGoogle()
         }
 
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationContainer)
-        val bottomNavigation = BottomNavigation(this)
-        bottomNavigation.setupBottomNavigation(bottomNavigationView)
 
     }
 

@@ -15,6 +15,7 @@
             android:layout_height="wrap_content"
             android:text="User"
             android:layout_marginTop="30dp"
+            android:textStyle="bold"
             android:textColor="@color/white"
             android:layout_marginHorizontal="30dp"
             android:textSize="24dp"/>

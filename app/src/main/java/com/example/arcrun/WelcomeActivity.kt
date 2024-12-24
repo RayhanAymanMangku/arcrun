@@ -14,6 +14,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.card.MaterialCardView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -42,6 +43,10 @@ class WelcomeActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance()
 
+
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationContainer)
+        val bottomNavigation = BottomNavigation(this)
+        bottomNavigation.setupBottomNavigation(bottomNavigationView)
 
         userHandler = GetUser ()
 
@@ -72,13 +77,7 @@ class WelcomeActivity : AppCompatActivity() {
             startActivity(navToEventPage)
         }
 
-        val tiket = findViewById<ImageView>(R.id.imgNav2)
-        tiket.setOnClickListener {
-            val toTiket = Intent(this, DisplayProgram::class.java)
-            startActivity(toTiket)
-        }
-
-        val achievement = findViewById<ImageView>(R.id.imgNav4)
+        val achievement = findViewById<MaterialCardView>(R.id.achievementCard)
         achievement.setOnClickListener {
             val toAchievement = Intent(this, AchievementProgram::class.java)
             startActivity(toAchievement)
